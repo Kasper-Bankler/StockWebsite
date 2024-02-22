@@ -6,5 +6,5 @@ A website for buying and selling stocks with virtual money
 - Select Python interpreter
 - Deploy using "python manage.py runserver"
 ```diff
-- settings.py is missing for security reasons
+- settings.py is hidden for security reasons
 ```
