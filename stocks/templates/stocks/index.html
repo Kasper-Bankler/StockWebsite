@@ -2,19 +2,15 @@
 <table class="table table-bordered table-hover">
   <thead>
     <tr>
-      <th>Name</th>
       <th>Ticker</th>
-      <th>Sector</th>
+      <th>Price</th>
     </tr>
   </thead>
   <tbody>
     {% for stock in stocks %}
     <tr>
-      <td>
-        <a href="{% url 'stocks:detail' stock.id %}">{{stock.name}}</a>
-      </td>
-      <td>{{stock.ticker}}</td>
-      <td>{{stock.sector}}</td>
+      <td>{{stock.T}}</td>
+      <td>{{stock.c}}</td>
     </tr>
     {% endfor %}
   </tbody>
