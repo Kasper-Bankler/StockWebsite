@@ -1,0 +1,7 @@
+<! -- Kilde: "Django Tutorial Part 8: User authentication and permissions" ved https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Authentication  -->
+{% extends "base.html" %}
+
+{% block content %}
+  <p>Logged out!</p>
+  <a href="{% url 'login'%}">Click here to login again.</a>
+{% endblock %}
