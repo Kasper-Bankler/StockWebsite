@@ -9,7 +9,9 @@
   <tbody>
     {% for stock in stocks %}
     <tr>
-      <td>{{stock.T}}</td>
+      <td>
+        <a href="{% url 'stocks:detail' stock.T %}">{{stock.T}}</a>
+      </td>
       <td>{{stock.c}}</td>
     </tr>
     {% endfor %}

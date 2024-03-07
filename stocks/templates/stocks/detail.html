@@ -1,10 +1,24 @@
 {% extends "base.html" %} {% block content %}
-<dl>
-  <dt>Name</dt>
-  <dd>{{stock.name}}</dd>
-  <dt>Ticker</dt>
-  <dd>{{stock.ticker}}</dd>
-  <dt>Sector</dt>
-  <dd>{{stock.sector}}</dd>
-</dl>
+<table class="table table-bordered table-hover">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Ticker</th>
+      <th>Stock Exchange</th>
+      <th>Country</th>
+      <th>Currency</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for item in stock %}
+    <tr>
+      <td>{{item.name}}</td>
+      <td>{{item.ticker}}</td>
+      <td>{{item.primary_exchange}}</td>
+      <td>{{item.locale}}</td>
+      <td>{{item.currency_name}}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
 {% endblock %}

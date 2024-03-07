@@ -34,6 +34,18 @@ def index(request):
     return render(request, "stocks/index.html", {"stocks": top_100_companies})
 
 
-def detail(request, stock_id):
-    stock = get_object_or_404(Stock, id=stock_id)
-    return render(request, 'stocks/detail.html', {'stock': stock})
+def detail(request, stock_ticker):
+    url = "https://api.polygon.io/v3/reference/tickers?ticker=" + \
+        stock_ticker+"&active=true&apiKey=0q2Jm5XhAiiz72Bq2lwRBx3zxIiaOJnj"
+
+    headers = {
+        "Authorization": "Bearer 0q2Jm5XhAiiz72Bq2lwRBx3zxIiaOJnj"
+    }
+
+    response = requests.get(url, headers=headers)
+    data = response.json()
+    # Udtag results fra data
+    results = data['results']
+    print(results)
+
+    return render(request, 'stocks/detail.html', {'stock': results})
