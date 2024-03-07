@@ -21,6 +21,8 @@ from . import views
 urlpatterns = [
     path('', views.home),
     path("admin/", admin.site.urls),
+
+    path("accounts/", include("accounts.urls")),  # new
     path('accounts/', include('django.contrib.auth.urls')),
 
     # Url der starter med stocks, bliver behandlet af stocks appen.
