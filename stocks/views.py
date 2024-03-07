@@ -6,13 +6,12 @@ import requests
 
 # Create your views here.
 
-
 def index(request):
     # Main page funktion der bliver kørt når siden loades
     # Henter alle stocks fra databasen. Svarer til SELECT * FROM stocks_stock
     stocks = Stock.objects.all()  # Kaldes abstraction api
 
-    url = "https://api.polygon.io/v2/aggs/grouped/locale/us/market/stocks/2023-01-09?adjusted=true&apiKey=d6fuLXExi6Y9gVzPW7OXwFhGxoKVk2qj"
+    url = "https://api.polygon.io/v2/aggs/grouped/locale/us/market/stocks/2024-03-06?adjusted=true&apiKey=d6fuLXExi6Y9gVzPW7OXwFhGxoKVk2qj"
 
     headers = {
         "Authorization": "Bearer d6fuLXExi6Y9gVzPW7OXwFhGxoKVk2qj"
