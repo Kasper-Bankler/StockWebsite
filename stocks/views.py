@@ -2,6 +2,8 @@ from django.http import HttpResponse, Http404
 from django.shortcuts import render, get_object_or_404
 from .models import Stock
 import requests
+from plotly import graph_objects as go
+import pandas as pd
 
 
 # Create your views here.
@@ -45,6 +47,50 @@ def detail(request, stock_ticker):
     data = response.json()
     # Udtag results fra data
     results = data['results']
-    print(results)
 
-    return render(request, 'stocks/detail.html', {'stock': results})
+    url = "https://api.polygon.io/v2/aggs/ticker/"+stock_ticker + \
+        "/range/1/day/2024-01-01/2024-03-01?adjusted=true&sort=asc&limit=120&apiKey=d6fuLXExi6Y9gVzPW7OXwFhGxoKVk2qj"
+
+    headers = {
+        "Authorization": "Bearer d6fuLXExi6Y9gVzPW7OXwFhGxoKVk2qj"
+    }
+
+    response2 = requests.get(url, headers=headers)
+    data2 = response2.json()
+    # Udtag results fra data
+    for item in data2:
+        if item == 'results':
+            rawData = data2[item]
+
+    closeList = []
+    openList = []
+    highList = []
+    lowList = []
+    timeList = []
+
+    for bar in rawData:
+        for category in bar:
+            if category == 'c':
+                closeList.append(bar[category])
+            elif category == "h":
+                highList.append(bar[category])
+            elif category == 'l':
+                lowList.append(bar[category])
+            elif category == 'o':
+                openList.append(bar[category])
+            elif category == 't':
+                timeList.append(bar[category])
+
+    # Konverter tid i millisekunder til datoer
+    times = []
+    for time in timeList:
+        times.append(pd.Timestamp(time, tz='GMT', unit='ms'))
+
+    fig = go.Figure()
+    fig.add_trace(go.Candlestick(x=times, open=openList,
+                  high=highList, low=lowList, close=closeList, name='graph'))
+    fig.update_layout(xaxis_rangeslider_visible=False)
+
+    graph = fig.to_html()
+
+    return render(request, 'stocks/detail.html', {'stock': results, 'graph': graph})
