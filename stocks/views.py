@@ -81,6 +81,8 @@ def detail(request, stock_ticker):
             elif category == 't':
                 timeList.append(bar[category])
 
+    price = closeList[-1]
+
     # Konverter tid i millisekunder til datoer
     times = []
     for time in timeList:
@@ -93,4 +95,4 @@ def detail(request, stock_ticker):
 
     graph = fig.to_html()
 
-    return render(request, 'stocks/detail.html', {'stock': results, 'graph': graph})
+    return render(request, 'stocks/detail.html', {'stock': results, 'graph': graph, 'price': price})
