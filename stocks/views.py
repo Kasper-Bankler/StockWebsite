@@ -95,4 +95,16 @@ def detail(request, stock_ticker):
 
     graph = fig.to_html()
 
-    return render(request, 'stocks/detail.html', {'stock': results, 'graph': graph, 'price': price})
+    url = "https://api.polygon.io/v2/reference/news?ticker=" + \
+        stock_ticker+"&limit=3&apiKey=0q2Jm5XhAiiz72Bq2lwRBx3zxIiaOJnj"
+
+    headers = {
+        "Authorization": "Bearer 0q2Jm5XhAiiz72Bq2lwRBx3zxIiaOJnj"
+    }
+
+    response3 = requests.get(url, headers=headers)
+    data3 = response3.json()
+    # Udtag results fra data
+    news = data3['results']
+
+    return render(request, 'stocks/detail.html', {'stock': results, 'graph': graph, 'price': price, 'news': news})
