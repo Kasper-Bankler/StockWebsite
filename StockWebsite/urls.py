@@ -26,5 +26,6 @@ urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),
 
     # Url der starter med stocks, bliver behandlet af stocks appen.
-    path("stocks/", include("stocks.urls"))
+    path("stocks/", include("stocks.urls")),
+    path("portfolio/", include("portfolio.urls"))
 ]
