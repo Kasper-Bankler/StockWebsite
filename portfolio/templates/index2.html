@@ -8,9 +8,20 @@
     </tr>
   </thead>
   <tbody>
-    <!-- Your table rows go here -->
+    {% for item in orders %}
+    <tr>
+      <td>{{orders.quantity}}</td>
+      <td>{{orders.transaction_date}}</td>
+      <td>{{orders.isBuyOrder}}</td>
+      <td>{{item.price}}</td>
+      <td>{{item.is_Active}}</td>
+      <td>{{item.stock_ID}}</td>
+      <td>{{item.user_ID}}</td>
+      
+    </tr>
   </tbody>
 </table>
+{% endfor %}
 {% endblock %}
 
 {% block footer %}
