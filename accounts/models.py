@@ -5,11 +5,8 @@ class CustomUser(AbstractUser):
     #app_label = "accounts"
     balance=models.FloatField(default=100000)
     
-    #def __str__(self):
-        #return self.username
+    def __str__(self):
+        return self.username
     
-    groups = models.ManyToManyField(Group, related_name='custom_user_groups')
-    user_permissions = models.ManyToManyField(Permission, related_name='custom_user_permissions')
-
     class Meta:
         app_label = 'accounts' 
