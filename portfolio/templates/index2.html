@@ -1,3 +1,20 @@
-<h1>Welcome to portfolio<h1>
-    
-    
+{% extends "base.html" %} 
+{% block content %}
+<table class="table table-bordered table-hover">
+  <thead>
+    <tr>
+      <th>Ticker</th>
+      <th>Price</th>
+    </tr>
+  </thead>
+  <tbody>
+    <!-- Your table rows go here -->
+  </tbody>
+</table>
+{% endblock %}
+
+{% block footer %}
+<div class="footer">
+  <p>2024 Ali, Victor og Kasper</p>
+</div>
+{% endblock %}
