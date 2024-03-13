@@ -114,4 +114,4 @@ def detail(request, stock_ticker):
     # Udtag results fra data
     news = data3['results']
 
-    return render(request, 'stocks/detail.html', {'stock': results, 'graph': graph, 'price': price, 'news': news})
+    return render(request, 'stocks/detail.html', {'stock': results[0], 'graph': graph, 'price': price, 'news': news})
