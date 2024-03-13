@@ -20,10 +20,16 @@
     </style>
   </head>
   <body>
-    <nav class="navbar bg-body-tertiary">
-      <div class="container-fluid">
+    <nav class="navbar bg-body-tertiary px-3">
+      <div class="navbar">
         <a class="navbar-brand" href="/">Stock Website</a>
-      </div>
+          <a href="/" class="nav-link px-2 text-muted">Home</a>
+       
+          <a href="/stocks" class="nav-link px-2 text-muted">Stocks</a>
+       
+          <a href="/accounts/profile" class="nav-link px-2 text-muted">Profile</a>
+        </div>
+      
     </nav>
     <main class="container">{% block content %} {% endblock %}</main>
     <footer class="py-3 my-4">
@@ -33,6 +39,9 @@
         </li>
         <li class="nav-item">
           <a href="/stocks" class="nav-link px-2 text-muted">Stocks</a>
+        </li>
+        <li class="nav-item">
+          <a href="/accounts/profile" class="nav-link px-2 text-muted">Profile</a>
         </li>
       </ul>
       <p class="text-center text-muted">
