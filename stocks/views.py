@@ -8,10 +8,10 @@ import pandas as pd
 
 # Create your views here.
 
-def index(request):
+def index(request, sort=None):
     # Main page funktion der bliver kørt når siden loades
     # Henter alle stocks fra databasen. Svarer til SELECT * FROM stocks_stock
-    stocks = Stock.objects.all()  # Kaldes abstraction api
+    # stocks = Stock.objects.all()  # Kaldes abstraction api
 
     url = "https://api.polygon.io/v2/aggs/grouped/locale/us/market/stocks/2024-03-06?adjusted=true&apiKey=d6fuLXExi6Y9gVzPW7OXwFhGxoKVk2qj"
 
@@ -31,8 +31,15 @@ def index(request):
     # Udvælg de 100 mest handlede aktier
     top_100_companies = sorted_results[:100]
 
+    if sort == 'price':
+        stocks = sorted(top_100_companies, key=lambda x: x['o'], reverse=True)
+    if sort == 'ticker':
+        stocks = sorted(top_100_companies, key=lambda x: x['T'], reverse=False)
+    else:
+        stocks = top_100_companies
+
     # Render templaten index.html
-    return render(request, "stocks/index.html", {"stocks": top_100_companies})
+    return render(request, "stocks/index.html", {"stocks": stocks})
 
 
 def detail(request, stock_ticker):
