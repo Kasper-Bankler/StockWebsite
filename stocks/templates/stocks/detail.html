@@ -1,33 +1,9 @@
-{% extends "base.html" %} {% block content %} {% load tz %}
-{% comment %} <table class="table table-bordered">
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Ticker</th>
-      <th>Price</th>
-      <th>Stock Exchange</th>
-      <th>Country</th>
-      <th>Currency</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for item in stock %}
-    <tr>
-      <td>{{item.name}}</td>
-      <td>{{item.ticker}}</td>
-      <td>{{price}}</td>
-      <td>{{item.primary_exchange}}</td>
-      <td>{{item.locale}}</td>
-      <td>{{item.currency_name}}</td>
-    </tr>
-    {% endfor %}
-  </tbody>
-</table> {% endcomment %}
+{% extends "base.html" %} {% block content %}
 <div class="on my-3 p-3">
   <h1>{{stock.name}} ({{stock.ticker}})</h1>
   <h2>currently trading for {{price}}$</h2>
 
-<div>{{ graph|safe }}</div>
+  <div>{{ graph|safe }}</div>
 </div>
 <h2>Related News</h2>
 <div class="row row-cols-1 row-cols-md-3 g-4">
