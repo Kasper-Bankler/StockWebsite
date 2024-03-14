@@ -8,17 +8,27 @@ import pandas as pd
 
 # Create your views here.
 
+def APICall(url, stockTicker="",between=""):
+    apiKey4="d6fuLXExi6Y9gVzPW7OXwFhGxoKVk2qj"
+    apiKey="0q2Jm5XhAiiz72Bq2lwRBx3zxIiaOJnj"
+    headers = {
+        "Authorization": "Bearer "+apiKey
+    }
+    if (stockTicker!=""):
+        callUrl=url+stockTicker+between+apiKey
+        response= requests.get(callUrl,headers=headers)
+    else:
+        callUrl=url+apiKey
+        response = requests.get(callUrl, headers=headers)
+    data = response.json()
+    return(data)
+
 def index(request, sort=None):
     # Main page funktion der bliver kørt når siden loades
-    url = "https://api.polygon.io/v2/aggs/grouped/locale/us/market/stocks/2024-03-06?adjusted=true&apiKey=d6fuLXExi6Y9gVzPW7OXwFhGxoKVk2qj"
+    
+    
 
-    headers = {
-        "Authorization": "Bearer d6fuLXExi6Y9gVzPW7OXwFhGxoKVk2qj"
-    }
-
-    response = requests.get(url, headers=headers)
-    data = response.json()
-
+    data = APICall("https://api.polygon.io/v2/aggs/grouped/locale/us/market/stocks/2024-03-06?adjusted=true&apiKey=")
     # Udtag results fra data
     results = data['results']
 
@@ -40,47 +50,32 @@ def index(request, sort=None):
 
 
 def detail(request, stock_ticker):
-    url = "https://api.polygon.io/v3/reference/tickers?ticker=" + \
-        stock_ticker+"&active=true&apiKey=0q2Jm5XhAiiz72Bq2lwRBx3zxIiaOJnj"
 
-    headers = {
-        "Authorization": "Bearer 0q2Jm5XhAiiz72Bq2lwRBx3zxIiaOJnj"
-    }
-
-    ticker_response = requests.get(url, headers=headers)
-    ticker_data = ticker_response.json()
+    ticker_data =APICall("https://api.polygon.io/v3/reference/tickers/",stock_ticker,"?apiKey=")
     # Udtag results fra data
     ticker_results = ticker_data['results']
 
-    url = "https://api.polygon.io/v2/aggs/ticker/"+stock_ticker + \
-        "/range/1/day/2024-01-01/2024-03-01?adjusted=true&sort=asc&limit=120&apiKey=d6fuLXExi6Y9gVzPW7OXwFhGxoKVk2qj"
+    
 
-    headers = {
-        "Authorization": "Bearer d6fuLXExi6Y9gVzPW7OXwFhGxoKVk2qj"
-    }
 
-    graph_response = requests.get(url, headers=headers)
-    graph_data = graph_response.json()
+    graph_data =APICall("https://api.polygon.io/v2/aggs/ticker/",stock_ticker,"/range/1/day/2024-01-01/2024-03-01?adjusted=true&sort=asc&limit=120&apiKey=")
 
     graph, price = create_graph(graph_data)
 
-    url = "https://api.polygon.io/v2/reference/news?ticker=" + \
-        stock_ticker+"&limit=3&apiKey=0q2Jm5XhAiiz72Bq2lwRBx3zxIiaOJnj"
 
-    headers = {
-        "Authorization": "Bearer 0q2Jm5XhAiiz72Bq2lwRBx3zxIiaOJnj"
-    }
-
-    news_response = requests.get(url, headers=headers)
-    news_data = news_response.json()
+        
+    news_data = APICall("https://api.polygon.io/v2/reference/news?ticker=",stock_ticker,"&limit=3&apiKey=")
     # Udtag results fra data
     news = news_data['results']
 
-    return render(request, 'stocks/detail.html', {'stock': ticker_results[0], 'graph': graph, 'price': price, 'news': news})
+    return render(request, 'stocks/detail.html', {'stock': ticker_results, 'graph': graph, 'price': price, 'news': news})
+
+
 
 
 def create_graph(graph_data):
     # Udtag results fra data
+    
     for item in graph_data:
         if item == 'results':
             rawData = graph_data[item]
