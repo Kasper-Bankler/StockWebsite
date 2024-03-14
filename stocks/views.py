@@ -9,8 +9,13 @@ import pandas as pd
 # Create your views here.
 
 def APICall(url, stockTicker="",between=""):
-    apiKey4="d6fuLXExi6Y9gVzPW7OXwFhGxoKVk2qj"
-    apiKey="0q2Jm5XhAiiz72Bq2lwRBx3zxIiaOJnj"
+    APICall.counter+=1
+    apiKey1="d6fuLXExi6Y9gVzPW7OXwFhGxoKVk2qj"
+    apiKey2="0q2Jm5XhAiiz72Bq2lwRBx3zxIiaOJnj"
+    if (APICall.counter%2==0):
+        apiKey=apiKey1
+    else:
+        apiKey=apiKey2
     headers = {
         "Authorization": "Bearer "+apiKey
     }
@@ -22,7 +27,7 @@ def APICall(url, stockTicker="",between=""):
         response = requests.get(callUrl, headers=headers)
     data = response.json()
     return(data)
-
+APICall.counter=0
 def index(request, sort=None):
     # Main page funktion der bliver kørt når siden loades
     
