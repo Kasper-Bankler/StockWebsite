@@ -25,13 +25,14 @@
         <a class="navbar-brand" href="/">Stock Website</a>
           <a href="/" class="nav-link px-2 text-muted">Home</a>
        
+          
           <a href="/stocks" class="nav-link px-2 text-muted">Stocks</a>
 
           
        
-          <a href="/accounts/profile" class="nav-link px-2 text-muted">Profile</a>
-          {% comment %} {{"/accounts/"+  user|yesno:"profile,login" }} {% endcomment %}
-          {% comment %} <a href="/accounts/profile" class="nav-link px-2 text-muted">{{user|yesno:"profile,login"}}</a> {% endcomment %}
+          
+          <a href="/accounts/{{user.username|yesno:"profile, login"}}" class="nav-link px-2 text-muted">{{user.username|yesno:"profile, login"}}</a>
+          
         </div>
       
     </nav>
