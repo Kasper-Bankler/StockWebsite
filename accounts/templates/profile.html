@@ -6,6 +6,13 @@
         <h2>Your current balance: {{user.balance}}$</h2>
         <p>{{stocks.0.ticker}}</p>
         <a href="/portfolio">Portfolio</a>
+
+        
+
+        <form id="logout-form" method="post" action="{% url 'admin:logout' %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Logout</button>
+          </form>
     </div>
 
 {% endblock content %}
