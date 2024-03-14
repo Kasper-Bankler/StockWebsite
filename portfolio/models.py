@@ -6,10 +6,10 @@ from django.utils import timezone
 
 # Create your models here.
 
-class Orders(models.Model):
+class Order(models.Model):
     
     quantity = models.IntegerField(max_length=255, default=0)
-    transaction_date = models.DateField(max_length=255, default=0)
+    transactionDate = models.DateField(max_length=255, default=0)
     isBuyOrder = models.BooleanField(max_length=255, default=True)
     price = models.FloatField(max_length=255, default=0)
     isActive = models.BooleanField(max_length=255, default=True)
