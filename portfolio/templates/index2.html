@@ -1,27 +1,40 @@
 {% extends "base.html" %} 
 {% block content %}
-<table class="table table-bordered table-hover">
-  <thead>
-    <tr>
-      <th>Ticker</th>
-      <th>Price</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for item in orders %}
-    <tr>
-      <td>{{orders.quantity}}</td>
-      <td>{{orders.transaction_date}}</td>
-      <td>{{orders.isBuyOrder}}</td>
-      <td>{{item.price}}</td>
-      <td>{{item.is_Active}}</td>
-      <td>{{item.stock_ID}}</td>
-      <td>{{item.user_ID}}</td>
-      
-    </tr>
-  </tbody>
-</table>
-{% endfor %}
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <h2>Orders</h2>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Quantity</th>
+            <th>Transaction Date</th>
+            <th>Buy Order</th>
+            <th>Price ($)</th>
+            <th>Active?</th>
+            <th>Stock Name</th>
+            <th>Username</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for order in orders %}
+            {% if order.user == request.user %}
+              <tr>
+                <td>{{ order.quantity }}</td>
+                <td>{{ order.transactionDate }}</td>
+                <td>{{ order.isBuyOrder }}</td>
+                <td>{{ order.price }}</td>
+                <td>{{ order.isActive }}</td>
+                <td>{{ order.stockID.name }}</td>
+                <td>{{ order.user }}</td>
+              </tr>
+            {% endif %}
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
 {% endblock %}
 
 {% block footer %}

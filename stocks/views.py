@@ -56,6 +56,7 @@ def index(request, sort=None):
 
 def detail(request, stock_ticker):
 
+    #Api request 
     ticker_data =APICall("https://api.polygon.io/v3/reference/tickers/",stock_ticker,"?apiKey=")
     # Udtag results fra data
     ticker_results = ticker_data['results']
