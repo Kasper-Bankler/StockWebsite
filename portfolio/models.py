@@ -17,3 +17,7 @@ class Order(models.Model):
     
     stockID = models.ForeignKey(Stock, on_delete=models.CASCADE)
     userID = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+
+    #def __str__(self):
+       # return f"{self.quantity} {self.stock.name} Order by {self.user.username} on {self.transactionDate}"
+    

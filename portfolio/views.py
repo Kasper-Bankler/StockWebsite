@@ -9,5 +9,5 @@ def index(request):
     # Render templaten index.html
     #return render(request, "portfolio/index.html", {"portfolio": top_100_companies}
     
-    orders = Order.objects.all
-    return render(request, "index2.html", {"portfolio": orders})
+    orders = Order.objects.all #Henter alt data fra orders i databasen
+    return render(request, "index2.html", {"orders": orders})
