@@ -10,7 +10,6 @@ import pandas as pd
 
 def index(request, sort=None):
     # Main page funktion der bliver kørt når siden loades
-
     url = "https://api.polygon.io/v2/aggs/grouped/locale/us/market/stocks/2024-03-06?adjusted=true&apiKey=d6fuLXExi6Y9gVzPW7OXwFhGxoKVk2qj"
 
     headers = {
@@ -48,10 +47,10 @@ def detail(request, stock_ticker):
         "Authorization": "Bearer 0q2Jm5XhAiiz72Bq2lwRBx3zxIiaOJnj"
     }
 
-    response = requests.get(url, headers=headers)
-    data = response.json()
+    ticker_response = requests.get(url, headers=headers)
+    ticker_data = ticker_response.json()
     # Udtag results fra data
-    results = data['results']
+    ticker_results = ticker_data['results']
 
     url = "https://api.polygon.io/v2/aggs/ticker/"+stock_ticker + \
         "/range/1/day/2024-01-01/2024-03-01?adjusted=true&sort=asc&limit=120&apiKey=d6fuLXExi6Y9gVzPW7OXwFhGxoKVk2qj"
@@ -60,12 +59,31 @@ def detail(request, stock_ticker):
         "Authorization": "Bearer d6fuLXExi6Y9gVzPW7OXwFhGxoKVk2qj"
     }
 
-    response2 = requests.get(url, headers=headers)
-    data2 = response2.json()
+    graph_response = requests.get(url, headers=headers)
+    graph_data = graph_response.json()
+
+    graph, price = create_graph(graph_data)
+
+    url = "https://api.polygon.io/v2/reference/news?ticker=" + \
+        stock_ticker+"&limit=3&apiKey=0q2Jm5XhAiiz72Bq2lwRBx3zxIiaOJnj"
+
+    headers = {
+        "Authorization": "Bearer 0q2Jm5XhAiiz72Bq2lwRBx3zxIiaOJnj"
+    }
+
+    news_response = requests.get(url, headers=headers)
+    news_data = news_response.json()
     # Udtag results fra data
-    for item in data2:
+    news = news_data['results']
+
+    return render(request, 'stocks/detail.html', {'stock': ticker_results[0], 'graph': graph, 'price': price, 'news': news})
+
+
+def create_graph(graph_data):
+    # Udtag results fra data
+    for item in graph_data:
         if item == 'results':
-            rawData = data2[item]
+            rawData = graph_data[item]
 
     closeList = []
     openList = []
@@ -99,17 +117,4 @@ def detail(request, stock_ticker):
     fig.update_layout(xaxis_rangeslider_visible=False)
 
     graph = fig.to_html()
-
-    url = "https://api.polygon.io/v2/reference/news?ticker=" + \
-        stock_ticker+"&limit=3&apiKey=0q2Jm5XhAiiz72Bq2lwRBx3zxIiaOJnj"
-
-    headers = {
-        "Authorization": "Bearer 0q2Jm5XhAiiz72Bq2lwRBx3zxIiaOJnj"
-    }
-
-    response3 = requests.get(url, headers=headers)
-    data3 = response3.json()
-    # Udtag results fra data
-    news = data3['results']
-
-    return render(request, 'stocks/detail.html', {'stock': results[0], 'graph': graph, 'price': price, 'news': news})
+    return graph, price
