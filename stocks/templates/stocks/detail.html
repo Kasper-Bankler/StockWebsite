@@ -1,8 +1,10 @@
 {% extends "base.html" %} {% block content %}
 <div class="on my-3 p-3">
   <h1>{{stock.name}} ({{stock.ticker}})</h1>
-  <h2>currently trading for {{price}}$</h2>
+  <h2>Currently trading for {{price}}$</h2>
   <p>{{stock.description}}</p>
+  <a href="buy" class="btn btn-success">Buy</a>
+  <a href="sell" class="btn btn-danger">Sell</a>
   <div>{{ graph|safe }}</div>
 </div>
 <h2>Related News</h2>
