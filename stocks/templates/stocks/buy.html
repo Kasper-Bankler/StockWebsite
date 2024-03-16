@@ -1,6 +1,28 @@
 {% extends "base.html" %} {% block content %}
-<div class="on my-3 p-3">
-  <h1>{{stock.name}} ({{stock.ticker}})</h1>
-  <h2>Currently trading for {{price}}$</h2>
-</div>
+<h1>{{name}} ({{ticker}})</h1>
+<h2>Current price: {{price}}$</h2>
+<form method="post" action="/portfolio/">
+  {% csrf_token %}
+  <div class="mb-3">
+    <label class="form-label">Quantity</label>
+    <input
+      type="number"
+      class="form-control"
+      value="{{quantity}}"
+      name="quantity"
+      id="quantity-input"
+      oninput="calculateTotal()"
+    />
+  </div>
+  <h2>Total Price: <span id="total-price"></span></h2>
+  <button type="submit" class="btn btn-success">Buy</button>
+</form>
+<script>
+  function calculateTotal() {
+      var price = {{ price }};
+      var quantity = document.getElementById('quantity-input').value;
+      var totalPrice = price * quantity;
+      document.getElementById('total-price').innerText = totalPrice.toFixed(2)+"$";
+  }
+</script>
 {% endblock %}

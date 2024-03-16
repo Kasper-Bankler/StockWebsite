@@ -6,37 +6,17 @@ from plotly import graph_objects as go
 import pandas as pd
 
 
+api_key_1 = "d6fuLXExi6Y9gVzPW7OXwFhGxoKVk2qj"
+api_key_2 = "0q2Jm5XhAiiz72Bq2lwRBx3zxIiaOJnj"
+
 # Create your views here.
-
-def APICall(url, stockTicker="", between=""):
-    APICall.counter += 1
-    apiKey1 = "d6fuLXExi6Y9gVzPW7OXwFhGxoKVk2qj"
-    apiKey2 = "0q2Jm5XhAiiz72Bq2lwRBx3zxIiaOJnj"
-    if (APICall.counter % 2 == 0):
-        apiKey = apiKey1
-    else:
-        apiKey = apiKey2
-    headers = {
-        "Authorization": "Bearer "+apiKey
-    }
-    if (stockTicker != ""):
-        callUrl = url+stockTicker+between+apiKey
-        response = requests.get(callUrl, headers=headers)
-    else:
-        callUrl = url+apiKey
-        response = requests.get(callUrl, headers=headers)
-    data = response.json()
-    return (data)
-
-
-APICall.counter = 0
 
 
 def index(request, sort=None):
     # Main page funktion der bliver kørt når siden loades
 
-    data = APICall(
-        "https://api.polygon.io/v2/aggs/grouped/locale/us/market/stocks/2024-03-06?adjusted=true&apiKey=")
+    data = API_call(
+        "https://api.polygon.io/v2/aggs/grouped/locale/us/market/stocks/2024-03-06?adjusted=true&apiKey=", api_key_1)
     # Udtag results fra data
     results = data['results']
 
@@ -60,40 +40,60 @@ def index(request, sort=None):
 def detail(request, stock_ticker):
 
     # Api request
-    ticker_data = APICall(
-        "https://api.polygon.io/v3/reference/tickers/", stock_ticker, "?apiKey=")
+    ticker_data = API_call(
+        "https://api.polygon.io/v3/reference/tickers/", api_key_1, stock_ticker, "?apiKey=")
     # Udtag results fra data
     ticker_results = ticker_data['results']
 
-    graph_data = APICall("https://api.polygon.io/v2/aggs/ticker/", stock_ticker,
-                         "/range/1/day/2024-01-01/2024-03-01?adjusted=true&sort=asc&limit=120&apiKey=")
+    graph_data = API_call("https://api.polygon.io/v2/aggs/ticker/", api_key_2, stock_ticker,
+                          "/range/1/day/2024-01-01/2024-03-01?adjusted=true&sort=asc&limit=120&apiKey=")
 
     graph, price = create_graph(graph_data)
 
-    news_data = APICall(
-        "https://api.polygon.io/v2/reference/news?ticker=", stock_ticker, "&limit=3&apiKey=")
+    news_data = API_call(
+        "https://api.polygon.io/v2/reference/news?ticker=", api_key_1, stock_ticker, "&limit=3&apiKey=")
     # Udtag results fra data
     news = news_data['results']
 
     return render(request, 'stocks/detail.html', {'stock': ticker_results, 'graph': graph, 'price': price, 'news': news})
 
 
-def buy(request):
+def buy(request, stock_ticker):
+    price_data = API_call("https://api.polygon.io/v2/aggs/ticker/", api_key_1, stock_ticker,
+                          "/range/1/day/2024-01-01/2024-03-01?adjusted=true&sort=asc&limit=120&apiKey=")
+    price_results = price_data['results']
 
-    return render(request, 'stocks/buy/.html')
+    ticker_data = API_call(
+        "https://api.polygon.io/v3/reference/tickers/", api_key_2, stock_ticker, "?apiKey=")
+    # Udtag results fra data
+    ticker_results = ticker_data['results']
+
+    price = get_price(price_results)
+    name, ticker = get_name_and_ticker(ticker_results)
+
+    return render(request, 'stocks/buy.html', {'price': price, 'name': name, 'ticker': ticker})
 
 
-def sell(request):
+def sell(request, stock_ticker):
+    price_data = API_call("https://api.polygon.io/v2/aggs/ticker/", api_key_1, stock_ticker,
+                          "/range/1/day/2024-01-01/2024-03-01?adjusted=true&sort=asc&limit=120&apiKey=")
+    price_results = price_data['results']
 
-    return render(request, 'stocks/sell/.html')
+    ticker_data = API_call(
+        "https://api.polygon.io/v3/reference/tickers/", api_key_2, stock_ticker, "?apiKey=")
+    # Udtag results fra data
+    ticker_results = ticker_data['results']
+
+    price = get_price(price_results)
+    name, ticker = get_name_and_ticker(ticker_results)
+
+    return render(request, 'stocks/sell.html', {'price': price, 'name': name, 'ticker': ticker})
 
 
 def create_graph(graph_data):
     # Udtag results fra data
 
-    for item in graph_data:
-        if item == 'results':
-            rawData = graph_data[item]
+    rawData = graph_data['results']
 
     closeList = []
     openList = []
@@ -128,3 +128,32 @@ def create_graph(graph_data):
 
     graph = fig.to_html()
     return graph, price
+
+
+def API_call(url1, apiKey="", stockTicker="", url2=""):
+    headers = {
+        "Authorization": "Bearer "+apiKey
+    }
+    if (stockTicker != ""):
+        callUrl = url1+stockTicker+url2+apiKey
+        response = requests.get(callUrl, headers=headers)
+    else:
+        callUrl = url1+apiKey
+        response = requests.get(callUrl, headers=headers)
+    data = response.json()
+    return (data)
+
+
+def get_price(data):
+    closeList = []
+    for price in data:
+        for category in price:
+            if category == 'c':
+                closeList.append(price[category])
+    return closeList[-1]
+
+
+def get_name_and_ticker(data):
+    name = data['name']
+    ticker = data['ticker']
+    return name, ticker
