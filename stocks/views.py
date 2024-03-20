@@ -8,6 +8,7 @@ import pandas as pd
 
 api_key_1 = "d6fuLXExi6Y9gVzPW7OXwFhGxoKVk2qj"
 api_key_2 = "0q2Jm5XhAiiz72Bq2lwRBx3zxIiaOJnj"
+api_key_3 = "qKBhJuyKplmty3xvzKW0mJmOhn25O_dY"
 
 # Create your views here.
 
@@ -51,7 +52,7 @@ def detail(request, stock_ticker):
     graph, price = create_graph(graph_data)
 
     news_data = API_call(
-        "https://api.polygon.io/v2/reference/news?ticker=", api_key_1, stock_ticker, "&limit=3&apiKey=")
+        "https://api.polygon.io/v2/reference/news?ticker=", api_key_3, stock_ticker, "&limit=3&apiKey=")
     # Udtag results fra data
     news = news_data['results']
 
