@@ -6,5 +6,6 @@ app_name = 'portfolio'
 # Django kalder automatisk funktionerne når siden loades
 urlpatterns = [
     path('', views.index, name='index'),
+    path('sort-'+'<str:sort>/', views.index, name='index'),
     #path('<str:portfolio_ticker>/', views.detail, name='detail')
 ]
