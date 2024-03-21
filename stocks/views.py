@@ -5,11 +5,53 @@ import requests
 from plotly import graph_objects as go
 import pandas as pd
 
+# Function to find the partition position
 
+
+def partition(array, low, high, sort_by, descending):
+
+    # Choose the rightmost element as pivot
+    pivot = array[high][sort_by]
+    # Pointer for greater element
+    i = low - 1
+    # Traverse through all elements
+    # compare each element with pivot
+    for j in range(low, high):
+        if descending:
+            if array[j][sort_by] >= pivot:
+                # If element greater than pivot is found
+                # swap it with the smaller element pointed by i
+                i = i + 1
+                # Swapping element at i with element at j
+                (array[i], array[j]) = (array[j], array[i])
+        else:
+            if array[j][sort_by] <= pivot:
+                # If element smaller than pivot is found
+                # swap it with the greater element pointed by i
+                i = i + 1
+                # Swapping element at i with element at j
+                (array[i], array[j]) = (array[j], array[i])
+    # Swap the pivot element with
+    # the greater element specified by i
+    (array[i + 1], array[high]) = (array[high], array[i + 1])
+    # Return the position from where partition is done
+    return i + 1
+
+
+def quicksort(array, low, high, sort_by, descending=False):
+    if low < high:
+        # Find pivot element such that
+        # element smaller than pivot are on the left
+        # element greater than pivot are on the right
+        pi = partition(array, low, high, sort_by, descending)
+        # Recursive call on the left of pivot
+        quicksort(array, low, pi - 1, sort_by, descending)
+        # Recursive call on the right of pivot
+        quicksort(array, pi + 1, high, sort_by, descending)
+    return array
 
 
 # Create your views here.
-
 
 def index(request, sort=None):
     # Main page funktion der bliver kørt når siden loades
@@ -19,15 +61,18 @@ def index(request, sort=None):
     # Udtag results fra data
 
     # Sorter liste på baggrund af trading volume ('v')
-    sorted_results = sorted(results, key=lambda x: x['v'], reverse=True)
+    sorted_results = quicksort(
+        results, 0, len(results)-1, 'v', descending=True)
 
     # Udvælg de 100 mest handlede aktier
     top_100_companies = sorted_results[:100]
 
     if sort == 'ticker':
-        stocks = sorted(top_100_companies, key=lambda x: x['T'], reverse=False)
+        stocks = quicksort(top_100_companies, 0,
+                           len(top_100_companies)-1, 'T',)
     elif sort == 'price':
-        stocks = sorted(top_100_companies, key=lambda x: x['c'], reverse=True)
+        stocks = quicksort(top_100_companies, 0,
+                           len(top_100_companies)-1, 'c', descending=True)
     else:
         stocks = top_100_companies
 
@@ -56,7 +101,7 @@ def detail(request, stock_ticker):
 
 def buy(request, stock_ticker):
     price_results = API_call("https://api.polygon.io/v2/aggs/ticker/", stock_ticker,
-                          "/range/1/day/2024-01-01/2024-03-01?adjusted=true&sort=asc&limit=120&apiKey=")
+                             "/range/1/day/2024-01-01/2024-03-01?adjusted=true&sort=asc&limit=120&apiKey=")
 
     ticker_results = API_call(
         "https://api.polygon.io/v3/reference/tickers/", stock_ticker, "?apiKey=")
@@ -70,7 +115,7 @@ def buy(request, stock_ticker):
 
 def sell(request, stock_ticker):
     price_results = API_call("https://api.polygon.io/v2/aggs/ticker/", stock_ticker,
-                          "/range/1/day/2024-01-01/2024-03-01?adjusted=true&sort=asc&limit=120&apiKey=")
+                             "/range/1/day/2024-01-01/2024-03-01?adjusted=true&sort=asc&limit=120&apiKey=")
 
     ticker_results = API_call(
         "https://api.polygon.io/v3/reference/tickers/", stock_ticker, "?apiKey=")
@@ -126,7 +171,7 @@ def API_call(url1, stockTicker="", url2=""):
     api_key_1 = "d6fuLXExi6Y9gVzPW7OXwFhGxoKVk2qj"
     api_key_2 = "0q2Jm5XhAiiz72Bq2lwRBx3zxIiaOJnj"
     api_key_3 = "qKBhJuyKplmty3xvzKW0mJmOhn25O_dY"
-    apiKey=api_key_1
+    apiKey = api_key_1
     headers = {
         "Authorization": "Bearer "+apiKey
     }
