@@ -5,7 +5,6 @@ from .models import Order
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, Http404
 from django.shortcuts import render, get_object_or_404
-from .models import Stock
 import requests
 from plotly import graph_objects as go
 import pandas as pd
