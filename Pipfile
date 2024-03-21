@@ -6,6 +6,9 @@ name = "pypi"
 [packages]
 django = "*"
 pylint-django = "*"
+requests = "*"
+plotly = "*"
+pandas = "*"
 
 [dev-packages]
 
