@@ -18,13 +18,16 @@ def index(request, sort=None):
     # return render(request, "portfolio/index.html", {"portfolio": top_100_companies}
     data = Order.objects.all  # Henter alt data fra orders i databasen
 
-    
+    data = API_call(
+        "https://api.polygon.io/v2/aggs/grouped/locale/us/market/stocks/2024-03-06?adjusted=true&apiKey=", api_key_1)
+    # Udtag results fra data
     results = data['results']
 
+    # Sorter liste på baggrund af trading volume ('v')
     sorted_results = sorted(results, key=lambda x: x['v'], reverse=True)
 
+    # Udvælg de 100 mest handlede aktier
     top_100_companies = sorted_results[:100]
-
 
     if sort == 'ticker':
         stocks = sorted(top_100_companies, key=lambda x: x['T'], reverse=False)
@@ -33,13 +36,9 @@ def index(request, sort=None):
     else:
         stocks = top_100_companies
 
-    try:
-        if request.method == "POST":
-            quantity = int(request.POST.get('quantity'))
-
-    except:
-        pass
-    return render(request, "index2.html", {"orders": orders})
+    # Render templaten index.html
+    
+    return render(request, "index2.html", {"orders": Order})
 
 
 def API_call(url1, apiKey="", stockTicker="", url2=""):
