@@ -37,7 +37,7 @@
           </tr>
         </thead>
         <tbody>
-          {% for order in orders %}
+          {% for order in Order %}
             {% if order.user == request.user %}
               <tr>
                 <td>{{ order.quantity }}</td>
