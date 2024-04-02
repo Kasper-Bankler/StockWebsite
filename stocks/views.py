@@ -1,7 +1,7 @@
 from django.http import HttpResponse, Http404
 from django.shortcuts import render, get_object_or_404
 
-from StockWebsite.utils import quicksort
+from StockWebsite.utils import API_call, quicksort
 from .models import Stock
 import requests
 from plotly import graph_objects as go
@@ -130,22 +130,6 @@ def create_graph(graph_data):
     return graph, price
 
 
-def API_call(url1, stockTicker="", url2=""):
-    api_key_1 = "d6fuLXExi6Y9gVzPW7OXwFhGxoKVk2qj"
-    api_key_2 = "0q2Jm5XhAiiz72Bq2lwRBx3zxIiaOJnj"
-    api_key_3 = "qKBhJuyKplmty3xvzKW0mJmOhn25O_dY"
-    apiKey = api_key_1
-    headers = {
-        "Authorization": "Bearer "+apiKey
-    }
-    if (stockTicker != ""):
-        callUrl = url1+stockTicker+url2+apiKey
-        response = requests.get(callUrl, headers=headers)
-    else:
-        callUrl = url1+apiKey
-        response = requests.get(callUrl, headers=headers)
-    data = response.json()
-    return (data['results'])
 
 
 def get_price(data):

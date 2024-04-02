@@ -1,3 +1,4 @@
+import requests
 
 
 def partition(array, low, high, sort_by, descending):
@@ -42,3 +43,34 @@ def quicksort(array, low, high, sort_by, descending=False): #Inspireret af geeks
         quicksort(array, pi + 1, high, sort_by, descending)
         
     return array
+
+
+
+def API_call(url1, stockTicker="", url2=""):
+    API_call.counter+=1
+    print("***************")
+    print(API_call.counter)
+
+    if API_call.counter%3==0:
+        apiKey = "d6fuLXExi6Y9gVzPW7OXwFhGxoKVk2qj"
+        
+    elif API_call.counter%3==1:
+        apiKey = "0q2Jm5XhAiiz72Bq2lwRBx3zxIiaOJnj"
+    
+    else:
+        apiKey = "qKBhJuyKplmty3xvzKW0mJmOhn25O_dY"
+
+
+    headers = {
+        "Authorization": "Bearer "+apiKey
+    }
+    if (stockTicker != ""):
+        callUrl = url1+stockTicker+url2+apiKey
+        response = requests.get(callUrl, headers=headers)
+    else:
+        callUrl = url1+apiKey
+        response = requests.get(callUrl, headers=headers)
+    data = response.json()
+    return (data['results'])
+
+API_call.counter=0
