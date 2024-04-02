@@ -3,7 +3,8 @@ from django.shortcuts import render, get_object_or_404
 
 from StockWebsite.utils import API_call, quicksort
 from .models import Stock
-import requests
+from django.contrib.auth.decorators import login_required
+
 from plotly import graph_objects as go
 import pandas as pd
 
@@ -62,6 +63,14 @@ def detail(request, stock_ticker):
     return render(request, 'stocks/detail.html', {'stock': ticker_results, 'graph': graph, 'price': price, 'news': news})
 
 
+@login_required
+def process(request,stock_ticker,quantity,type,price):
+    
+    #opret en ordre her og redirect til portfolio
+    
+    return render(request, 'stocks/process_trade.html',{'stockTicker':stock_ticker,'quantity':quantity,'price':price,'type':type})
+
+@login_required
 def buy(request, stock_ticker):
     price_results = API_call("https://api.polygon.io/v2/aggs/ticker/", stock_ticker,
                              "/range/1/day/2024-01-01/2024-03-01?adjusted=true&sort=asc&limit=120&apiKey=")
@@ -72,10 +81,13 @@ def buy(request, stock_ticker):
 
     price = get_price(price_results)
     name, ticker = get_name_and_ticker(ticker_results)
-
+    
+    
+    
+    
     return render(request, 'stocks/buy.html', {'price': price, 'name': name, 'ticker': ticker})
 
-
+@login_required
 def sell(request, stock_ticker):
     price_results = API_call("https://api.polygon.io/v2/aggs/ticker/", stock_ticker,
                              "/range/1/day/2024-01-01/2024-03-01?adjusted=true&sort=asc&limit=120&apiKey=")
