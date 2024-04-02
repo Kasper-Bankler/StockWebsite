@@ -35,9 +35,10 @@
             <th>Stock Name</th>
             <th>Username</th>
           </tr>
+          
         </thead>
         <tbody>
-          {% for order in Order %}
+          {% for order in orders %}
             {% if order.user == request.user %}
               <tr>
                 <td>{{ order.quantity }}</td>
@@ -45,8 +46,9 @@
                 <td>{{ order.isBuyOrder }}</td>
                 <td>{{ order.price }}</td>
                 <td>{{ order.isActive }}</td>
-                <td>{{ order.stockID.name }}</td>
+                <td>{{ order.stock.name }}</td>
                 <td>{{ order.user }}</td>
+                
               </tr>
             {% endif %}
           {% endfor %}

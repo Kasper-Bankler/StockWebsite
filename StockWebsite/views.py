@@ -7,7 +7,7 @@ def home(request):
     return render(request, 'home.html')
 
 def index(request):
-    portfolio = Portfolio.objects.all()
-    return render(request, "index2.html", {"portfolio": portfolio})
+    portfolio = portfolio.objects.all()
+    return render(request, "index.html", {"portfolio": portfolio})
 
 

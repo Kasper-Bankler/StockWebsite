@@ -14,8 +14,6 @@ class Order(models.Model):
     price = models.FloatField(max_length=255)
     isActive = models.BooleanField(max_length=255, default=True)
     #Hvis en stock slettes, slettes alle stocks i portfolien også
-    
-    
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
 
     def __str__(self):
