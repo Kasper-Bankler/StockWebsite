@@ -48,6 +48,7 @@ def quicksort(array, low, high, sort_by, descending=False):
         quicksort(array, low, pi - 1, sort_by, descending)
         # Recursive call on the right of pivot
         quicksort(array, pi + 1, high, sort_by, descending)
+        
     return array
 
 
@@ -69,7 +70,7 @@ def index(request, sort=None):
 
     if sort == 'ticker':
         stocks = quicksort(top_100_companies, 0,
-                           len(top_100_companies)-1, 'T',)
+                           len(top_100_companies)-1, 'T')
     elif sort == 'price':
         stocks = quicksort(top_100_companies, 0,
                            len(top_100_companies)-1, 'c', descending=True)
