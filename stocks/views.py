@@ -1,7 +1,7 @@
 from django.http import HttpResponse, Http404
 from django.shortcuts import render, get_object_or_404
 
-from StockWebsite.utils import API_call, quicksort
+from StockWebsite.utils import API_call, quicksort, linear_search
 from .models import Stock
 from django.contrib.auth.decorators import login_required
 
@@ -11,13 +11,9 @@ import pandas as pd
 # Function to find the partition position
 
 
-
-
-
-
 # Create your views here.
 
-def index(request, sort=None):
+def index(request, sort=None, search=None):
     # Main page funktion der bliver kørt når siden loades
 
     results = API_call(
@@ -37,6 +33,13 @@ def index(request, sort=None):
     elif sort == 'price':
         stocks = quicksort(top_100_companies, 0,
                            len(top_100_companies)-1, 'c', descending=True)
+    elif search != None:
+        search_result = linear_search(top_100_companies, search.upper())
+        if search_result != -1:
+            stocks = [search_result]
+        else:
+            stocks = []
+
     else:
         stocks = top_100_companies
 
@@ -64,11 +67,12 @@ def detail(request, stock_ticker):
 
 
 @login_required
-def process(request,stock_ticker,quantity,type,price):
-    
-    #opret en ordre her og redirect til portfolio
-    
-    return render(request, 'stocks/process_trade.html',{'stockTicker':stock_ticker,'quantity':quantity,'price':price,'type':type})
+def process(request, stock_ticker, quantity, type, price):
+
+    # opret en ordre her og redirect til portfolio
+
+    return render(request, 'stocks/process_trade.html', {'stockTicker': stock_ticker, 'quantity': quantity, 'price': price, 'type': type})
+
 
 @login_required
 def buy(request, stock_ticker):
@@ -81,11 +85,9 @@ def buy(request, stock_ticker):
 
     price = get_price(price_results)
     name, ticker = get_name_and_ticker(ticker_results)
-    
-    
-    
-    
+
     return render(request, 'stocks/buy.html', {'price': price, 'name': name, 'ticker': ticker})
+
 
 @login_required
 def sell(request, stock_ticker):
@@ -140,8 +142,6 @@ def create_graph(graph_data):
 
     graph = fig.to_html()
     return graph, price
-
-
 
 
 def get_price(data):

@@ -1,4 +1,4 @@
-{% extends "base.html" %} {% block content %}
+{% extends "base.html" %} {% block content %} {% if stocks%}
 
 <div class="d-flex align-items-center">
   <div class="dropdown">
@@ -20,12 +20,13 @@
     </ul>
   </div>
 
-  <form class="d-flex ms-2" role="search">
+  <form class="d-flex ms-2" role="search" id="searchForm">
     <input
       class="form-control me-2"
       type="search"
       placeholder="Search"
       aria-label="Search"
+      id="searchInput"
     />
     <button class="btn btn-outline-success" type="submit">Search</button>
   </form>
@@ -49,4 +50,19 @@
     {% endfor %}
   </tbody>
 </table>
-{% endblock %}
+<script>
+  document
+    .getElementById("searchForm")
+    .addEventListener("submit", function (event) {
+      event.preventDefault(); // Prevent default form submission
+      var searchInput = document.getElementById("searchInput").value; // Get the value of the input field
+      window.location.href = "/stocks/search-" + searchInput.toUpperCase(); // Redirect to the desired URL
+    });
+</script>
+
+{% else %}
+<p>
+  We could not find the ticker symbol you are looking for. Press
+  <a href="/stocks">here</a> to browse all stocks.
+</p>
+{% endif %} {% endblock %}

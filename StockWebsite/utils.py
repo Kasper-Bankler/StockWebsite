@@ -29,9 +29,10 @@ def partition(array, low, high, sort_by, descending):
     (array[i + 1], array[high]) = (array[high], array[i + 1])
     # Return the position from where partition is done
     return i + 1
- 
 
-def quicksort(array, low, high, sort_by, descending=False): #Inspireret af geeksforgeeks https://www.geeksforgeeks.org/quick-sort/
+
+# Inspireret af geeksforgeeks https://www.geeksforgeeks.org/quick-sort/
+def quicksort(array, low, high, sort_by, descending=False):
     if low < high:
         # Find pivot element such that
         # element smaller than pivot are on the left
@@ -41,25 +42,32 @@ def quicksort(array, low, high, sort_by, descending=False): #Inspireret af geeks
         quicksort(array, low, pi - 1, sort_by, descending)
         # Recursive call on the right of pivot
         quicksort(array, pi + 1, high, sort_by, descending)
-        
+
     return array
 
+# Inspiration fra geeksforgeeks https://www.geeksforgeeks.org/linear-search/
+
+
+def linear_search(tickers, target):
+    for ticker in tickers:
+        if ticker['T'] == target:
+            return ticker
+    return -1
 
 
 def API_call(url1, stockTicker="", url2=""):
-    API_call.counter+=1
+    API_call.counter += 1
     print("***************")
     print(API_call.counter)
 
-    if API_call.counter%3==0:
+    if API_call.counter % 3 == 0:
         apiKey = "d6fuLXExi6Y9gVzPW7OXwFhGxoKVk2qj"
-        
-    elif API_call.counter%3==1:
+
+    elif API_call.counter % 3 == 1:
         apiKey = "0q2Jm5XhAiiz72Bq2lwRBx3zxIiaOJnj"
-    
+
     else:
         apiKey = "qKBhJuyKplmty3xvzKW0mJmOhn25O_dY"
-
 
     headers = {
         "Authorization": "Bearer "+apiKey
@@ -73,4 +81,5 @@ def API_call(url1, stockTicker="", url2=""):
     data = response.json()
     return (data['results'])
 
-API_call.counter=0
+
+API_call.counter = 0
