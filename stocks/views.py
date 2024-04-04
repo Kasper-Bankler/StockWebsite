@@ -13,7 +13,7 @@ import pandas as pd
 
 # Create your views here.
 
-def index(request, sort=None, search=None):
+def index(request, sort="", search=""):
     # Main page funktion der bliver kørt når siden loades
 
     results = API_call(
@@ -33,13 +33,12 @@ def index(request, sort=None, search=None):
     elif sort == 'price':
         stocks = quicksort(top_100_companies, 0,
                            len(top_100_companies)-1, 'c', descending=True)
-    elif search != None:
+    elif search:
         search_result = linear_search(top_100_companies, search.upper())
         if search_result != -1:
             stocks = [search_result]
         else:
             stocks = []
-
     else:
         stocks = top_100_companies
 
@@ -52,7 +51,6 @@ def detail(request, stock_ticker):
     # Api request
     ticker_results = API_call(
         "https://api.polygon.io/v3/reference/tickers/", stock_ticker, "?apiKey=")
-    # Udtag results fra data
 
     graph_data = API_call("https://api.polygon.io/v2/aggs/ticker/", stock_ticker,
                           "/range/1/day/2024-01-01/2024-03-01?adjusted=true&sort=asc&limit=120&apiKey=")
@@ -61,7 +59,6 @@ def detail(request, stock_ticker):
 
     news = API_call(
         "https://api.polygon.io/v2/reference/news?ticker=", stock_ticker, "&limit=3&apiKey=")
-    # Udtag results fra data
 
     return render(request, 'stocks/detail.html', {'stock': ticker_results, 'graph': graph, 'price': price, 'news': news})
 
