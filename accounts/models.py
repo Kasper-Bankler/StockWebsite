@@ -10,3 +10,6 @@ class CustomUser(AbstractUser):
     # user_permissions = models.ManyToManyField(Permission, related_name='custom_user_permissions')    
     class Meta:
         app_label = 'accounts' 
+    
+    def __str__(self):
+        return self.username
