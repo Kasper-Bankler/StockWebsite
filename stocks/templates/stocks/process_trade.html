@@ -2,9 +2,23 @@
 {% block title %}Processing trade{% endblock title %}
 {% block content %}
     <div class="on my-3 p-3">
-        <h1>Processing the {{type}} of {{quantity}} volume for the stock {{stockTicker}} at {{price}}$</h1>
+        <h1>Processing the {{type}}ing of {{quantity}} volume for the stock {{stockTicker}} at {{price}}$.
+            <br></br>
+            <div class="spinner-border spinner-border-xl" role="status">
+                <span class="sr-only"></span>
+              </div>
+            Please wait...
+            
+        </h1>
         
         {{index}}
     </div>
+    <script>
+        function delay(time) {
+            return new Promise(resolve => setTimeout(resolve, time));
+          }
+        delay(3000).then(() => window.location.assign("../../../../../portfolio"));
+
+    </script>
 
 {% endblock content %}
