@@ -17,9 +17,6 @@ from StockWebsite.utils import quicksort, linear_search
 @login_required
 def index(request, sort=None):
 
-    stocks=Stock.objects.all()
-    for stock in stocks:
-        print(stock.transactionDate)
     # Fetch orders fra database
     orders = Order.objects.filter(user=request.user, isActive=True)
     orders = list(orders.values())  # Konverterer orders til list af dictionaries

@@ -1,6 +1,6 @@
 from django.http import HttpResponse, Http404
 from django.shortcuts import render, get_object_or_404
-import datetime
+from datetime import datetime
 
 from StockWebsite.utils import API_call, quicksort, linear_search
 from accounts.models import CustomUser
@@ -82,7 +82,7 @@ def process(request, stock_ticker, quantity, type, price):
     stock_obj, created = Stock.objects.get_or_create(
     price=price,
     ticker=stock_ticker,
-    transactionDate=datetime.datetime.now()
+    transactionDate=datetime.now().replace(second=0,microsecond=0)
 
 )
     
