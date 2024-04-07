@@ -14,7 +14,7 @@
 
     <ul class="dropdown-menu">
       <li>
-        <a class="dropdown-item" href="/stocks/sort-ticker">Ticker name</a>
+        <a class="dropdown-item" href="/stocks/sort-ticker">Ticker symbol</a>
       </li>
       <li><a class="dropdown-item" href="/stocks/sort-price">Price</a></li>
     </ul>
@@ -24,7 +24,7 @@
     <input
       class="form-control me-2"
       type="search"
-      placeholder="Search"
+      placeholder="Search ticker symbol"
       aria-label="Search"
       id="searchInput"
     />
@@ -55,8 +55,16 @@
     .getElementById("searchForm")
     .addEventListener("submit", function (event) {
       event.preventDefault(); // Prevent default form submission
-      var searchInput = document.getElementById("searchInput").value; // Get the value of the input field
-      window.location.href = "/stocks/search-" + searchInput.toUpperCase(); // Redirect to the desired URL
+      var searchInput = document.getElementById("searchInput").value.trim(); // Get the trimmed value of the input field
+
+      // Check if the search input is not empty
+      if (searchInput !== "") {
+        // Construct the URL and redirect
+        window.location.href = "/stocks/search-" + searchInput.toUpperCase();
+      } else {
+        // Display an alert or perform other actions to handle empty search input
+        alert("Please enter a ticker symbol to search.");
+      }
     });
 </script>
 

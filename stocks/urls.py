@@ -8,11 +8,11 @@ app_name = 'stocks'
 # Django kalder automatisk funktionerne når siden loades
 urlpatterns = [
     path('', views.index, name='index'),
-    path('sort-'+'<str:sort>/', views.index, name='index'),
-    path('search-'+'<str:search>/', views.index, name='index'),
+    path('sort-<str:sort>/', views.index, name='index'),
+    path('search-<str:search>/', views.index, name='index'),
     path('<str:stock_ticker>/', views.detail, name='detail'),
-    path('<str:stock_ticker>/buy', views.buy, name='buy'),
-    path('<str:stock_ticker>/sell', views.sell, name='sell'),
+    path('<str:stock_ticker>/<str:transaction_type>', views.handle_transaction, name='handle_transaction'),
+    
     path('<str:stock_ticker>/<int:quantity>/<str:type>/<float:price>/process',
          views.process, name='process'),
     path("redirecting", views.redirect, name = "redirect"),

@@ -2,6 +2,8 @@ from django.http import HttpResponse, Http404
 from django.shortcuts import render, get_object_or_404
 
 from StockWebsite.utils import API_call, quicksort, linear_search
+from accounts.models import CustomUser
+from portfolio.models import Order
 from .models import Stock
 from django.contrib.auth.decorators import login_required
 
@@ -13,7 +15,7 @@ import pandas as pd
 
 # Create your views here.
 
-def index(request, sort=None, search=None):
+def index(request, sort="", search=""):
     # Main page funktion der bliver kørt når siden loades
 
     results = API_call(
@@ -33,13 +35,12 @@ def index(request, sort=None, search=None):
     elif sort == 'price':
         stocks = quicksort(top_100_companies, 0,
                            len(top_100_companies)-1, 'c', descending=True)
-    elif search != None:
+    elif search:
         search_result = linear_search(top_100_companies, search.upper())
         if search_result != -1:
             stocks = [search_result]
         else:
             stocks = []
-
     else:
         stocks = top_100_companies
 
@@ -52,7 +53,6 @@ def detail(request, stock_ticker):
     # Api request
     ticker_results = API_call(
         "https://api.polygon.io/v3/reference/tickers/", stock_ticker, "?apiKey=")
-    # Udtag results fra data
 
     graph_data = API_call("https://api.polygon.io/v2/aggs/ticker/", stock_ticker,
                           "/range/1/day/2024-01-01/2024-03-01?adjusted=true&sort=asc&limit=120&apiKey=")
@@ -61,15 +61,30 @@ def detail(request, stock_ticker):
 
     news = API_call(
         "https://api.polygon.io/v2/reference/news?ticker=", stock_ticker, "&limit=3&apiKey=")
-    # Udtag results fra data
 
     return render(request, 'stocks/detail.html', {'stock': ticker_results, 'graph': graph, 'price': price, 'news': news})
 
 
 @login_required
 def process(request, stock_ticker, quantity, type, price):
-
+    
     # opret en ordre her og redirect til portfolio
+    
+    cost = quantity * price
+    
+    if (type=="buy"):
+        boolType=True
+    else:
+        boolType=False
+
+    orderRecord=Order(quantity=quantity,stock=stock_ticker,isBuyOrder=boolType,price=price,user=request.user)
+
+    currentUser=request.user
+
+    currentUser.balance=currentUser.balance-cost
+
+    orderRecord.save()
+    currentUser.save()
 
     return render(request, 'stocks/process_trade.html', {'stockTicker': stock_ticker, 'quantity': quantity, 'price': price, 'type': type})
 
@@ -77,7 +92,8 @@ def redirect(request):
     return render(request, 'portfolio/index.html')
 
 @login_required
-def buy(request, stock_ticker):
+def handle_transaction(request, stock_ticker,transaction_type):
+    
     price_results = API_call("https://api.polygon.io/v2/aggs/ticker/", stock_ticker,
                              "/range/1/day/2024-01-01/2024-03-01?adjusted=true&sort=asc&limit=120&apiKey=")
 
@@ -88,7 +104,12 @@ def buy(request, stock_ticker):
     price = get_price(price_results)
     name, ticker = get_name_and_ticker(ticker_results)
 
-    return render(request, 'stocks/buy.html', {'price': price, 'name': name, 'ticker': ticker})
+    if transaction_type=="buy":
+        contextType=True
+    else:
+        contextType=False
+
+    return render(request, 'stocks/handle_transaction.html', {'price': price, 'name': name, 'ticker': ticker,'type':contextType})
 
 
 @login_required
