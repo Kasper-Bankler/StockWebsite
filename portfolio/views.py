@@ -15,12 +15,12 @@ from StockWebsite.utils import quicksort, linear_search
 @login_required
 def index(request, sort=None):
 
-    # Fetch orders from the database
+    # Fetch orders fra database
     orders = Order.objects.filter(user=request.user, isActive=True)
-    orders = list(orders.values())  # Convert queryset to list of dictionaries
+    orders = list(orders.values())  # Konverterer orders til list af dictionaries
 
     if sort == 'price':
-        # Sort orders by price using quicksort
+        # sorter orders med price via quicksort
         quicksort(orders, 0, len(orders) - 1, "price", descending=True)
 
     return render(request, "index.html", {"orders": orders})
