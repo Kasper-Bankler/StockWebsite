@@ -73,6 +73,8 @@ def process(request, stock_ticker, quantity, type, price):
 
     return render(request, 'stocks/process_trade.html', {'stockTicker': stock_ticker, 'quantity': quantity, 'price': price, 'type': type})
 
+def redirect(request):
+    return render(request, 'portfolio/index.html')
 
 @login_required
 def buy(request, stock_ticker):

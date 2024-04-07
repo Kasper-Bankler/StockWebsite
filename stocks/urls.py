@@ -15,4 +15,5 @@ urlpatterns = [
     path('<str:stock_ticker>/sell', views.sell, name='sell'),
     path('<str:stock_ticker>/<int:quantity>/<str:type>/<float:price>/process',
          views.process, name='process'),
+    path("redirecting", views.redirect, name = "redirect"),
 ]
