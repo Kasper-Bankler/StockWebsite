@@ -1,6 +1,8 @@
 import dataclasses
 from django.shortcuts import render
 from django.http import HttpResponse
+
+from stocks.models import Stock
 from .models import Order
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, Http404
@@ -15,6 +17,9 @@ from StockWebsite.utils import quicksort, linear_search
 @login_required
 def index(request, sort=None):
 
+    stocks=Stock.objects.all()
+    for stock in stocks:
+        print(stock.transactionDate)
     # Fetch orders fra database
     orders = Order.objects.filter(user=request.user, isActive=True)
     orders = list(orders.values())  # Konverterer orders til list af dictionaries

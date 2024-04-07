@@ -13,7 +13,16 @@ class Sector(models.Model):
 
 
 class Stock(models.Model):
-    name = models.CharField(max_length=255)
-    ticker = models.CharField(max_length=255)
+    transactionDate = models.DateTimeField(auto_now_add=True, auto_now=False)
+    ticker = models.CharField(max_length=255,default='')
     # Hvis en sector slettes, slettes alle aktier i den også
-    sector = models.ForeignKey(Sector, on_delete=models.CASCADE)
+    price = models.FloatField(max_length=255,default=0.0)
+    
+    
+    class Meta:
+        unique_together = ('ticker', 'price', 'transactionDate')
+
+    def __str__(self):
+        return self.ticker
+
+   

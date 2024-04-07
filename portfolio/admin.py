@@ -5,7 +5,7 @@ from .models import Order
 
 class OrderAdmin(admin.ModelAdmin):
     # Denne klasse viser id, navn og ticker på admin siden
-    list_display = ('stock', 'user', 'isActive',"price","isBuyOrder",'transactionDate','quantity')
+    list_display = ('stock', 'user', 'isActive',"isBuyOrder",'quantity')
 
 
 # Register your models here.

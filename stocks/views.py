@@ -1,6 +1,7 @@
 from django.http import HttpResponse, Http404
 from django.shortcuts import render, get_object_or_404
-import time
+import datetime
+
 from StockWebsite.utils import API_call, quicksort, linear_search
 from accounts.models import CustomUser
 from portfolio.models import Order
@@ -77,14 +78,21 @@ def process(request, stock_ticker, quantity, type, price):
     else:
         boolType=False
 
+    #fra https://docs.djangoproject.com/en/dev/ref/models/querysets/#get-or-create
+    stock_obj, created = Stock.objects.get_or_create(
+    price=price,
+    ticker=stock_ticker,
+    transactionDate=datetime.datetime.now()
+
+)
     
-    orderRecord=Order(quantity=quantity,stock=stock_ticker,isBuyOrder=boolType,price=price,user=request.user)
+    order_obj=Order(quantity=quantity,isBuyOrder=boolType,user=request.user,stock=stock_obj)
 
     currentUser=request.user
 
     currentUser.balance=currentUser.balance-cost
 
-    orderRecord.save()
+    order_obj.save()
     currentUser.save()
 
     return render(request, 'stocks/process_trade.html', {'stockTicker': stock_ticker, 'quantity': quantity, 'price': price, 'type': type})

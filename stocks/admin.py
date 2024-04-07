@@ -9,7 +9,7 @@ class SectorAdmin(admin.ModelAdmin):
 
 class StockAdmin(admin.ModelAdmin):
     # Denne klasse viser id, navn og ticker på admin siden
-    list_display = ('id', 'name', 'ticker')
+    list_display = ( 'price', 'ticker','transactionDate')
 
 
 # Register your models here.
