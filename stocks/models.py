@@ -14,11 +14,16 @@ class Sector(models.Model):
 
 class Stock(models.Model):
     transactionDate = models.DateTimeField(auto_now_add=True, auto_now=False)
-    ticker = models.CharField(max_length=255,default='')
+    ticker = models.CharField(max_length=255,default='.')
     # Hvis en sector slettes, slettes alle aktier i den også
     price = models.FloatField(max_length=255,default=0.0)
     
-    
+    def clean_transactionDate(self):
+        data = self.cleaned_transactionDate['transactionDate']
+    # do some stuff
+        data.replace(microsecond=0,second=0)
+        return data
+
     class Meta:
         unique_together = ('ticker', 'price', 'transactionDate')
 
