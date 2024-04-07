@@ -14,7 +14,6 @@
           >
             Sort by
           </a>
-      
           <ul class="dropdown-menu">
             <li>
               <a class="dropdown-item" href="/portfolio/sort-ticker">Ticker name</a>
@@ -22,7 +21,21 @@
             <li><a class="dropdown-item" href="/portfolio/sort-price">Price</a></li>
           </ul>
         </div>
+
+        <form class="d-flex ms-2" role="search" id="searchForm">
+          <input
+            class="form-control me-2"
+            type="search"
+            placeholder="Search ticker symbol"
+            aria-label="Search"
+            id="searchInput"
+          />
+          <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+      </div>
       
+        
+      </div>
       <h2>Orders</h2>
       <table class="table">
         <thead>
@@ -39,18 +52,15 @@
         </thead>
         <tbody>
           {% for order in orders %}
-            {% if order.user == request.user %}
-              <tr>
-                <td>{{ order.quantity }}</td>
-                <td>{{ order.transactionDate }}</td>
-                <td>{{ order.isBuyOrder }}</td>
-                <td>{{ order.price }}</td>
-                <td>{{ order.isActive }}</td>
-                <td>{{ order.stock.name }}</td>
-                <td>{{ order.user }}</td>
-                
-              </tr>
-            {% endif %}
+            <tr>
+              <td>{{ order.quantity }}</td>
+              <td>{{ order.transactionDate }}</td>
+              <td>{{ order.isBuyOrder }}</td>
+              <td>{{ order.price }}</td>
+              <td>{{ order.isActive }}</td>
+              <td>{{ order.stock }}</td>
+              <td>{{ order.user }}</td>
+            </tr>
           {% endfor %}
         </tbody>
       </table>
