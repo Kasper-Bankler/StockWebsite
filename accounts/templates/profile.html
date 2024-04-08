@@ -1,18 +1,14 @@
-{% extends "base.html" %}
-{% block title %}Profile Page{% endblock title %}
-{% block content %}
-    <div class="on my-3 p-3">
-        <h1>Hello {{user.username}}!</h1>
-        <h2>Your current balance is: {{user.balance}}$</h2>
-        <p>{{stocks.0.ticker}}</p>
-        <a href="/portfolio">Portfolio</a>
+{% extends "base.html" %} {% block title %}Profile Page{% endblock title %}
+{%block content %}
+<div class="on my-3 p-3">
+  <h1>Hello {{user.username}}!</h1>
+  <h2>Your current balance is: {{user.balance}}$</h2>
+  <p>{{stocks.0.ticker}}</p>
 
-        
-
-        <form id="logout-form" method="post" action="{% url 'admin:logout' %}">
-            {% csrf_token %}
-            <button type="submit" class="btn btn-danger">Logout</button>
-          </form>
-    </div>
+  <form id="logout-form" method="post" action="{% url 'admin:logout' %}">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Logout</button>
+  </form>
+</div>
 
 {% endblock content %}
