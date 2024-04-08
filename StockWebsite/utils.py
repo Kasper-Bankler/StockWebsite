@@ -1,4 +1,6 @@
 import requests
+from plotly import graph_objects as go
+import pandas as pd
 
 
 def partition(array, low, high, sort_by, descending):
@@ -83,3 +85,43 @@ def API_call(url1, stockTicker="", url2=""):
 
 
 API_call.counter = 0
+
+
+def create_graph(graph_data):
+    # Udtag results fra data
+
+    rawData = graph_data
+
+    closeList = []
+    openList = []
+    highList = []
+    lowList = []
+    timeList = []
+
+    for bar in rawData:
+        for category in bar:
+            if category == 'c':
+                closeList.append(bar[category])
+            elif category == "h":
+                highList.append(bar[category])
+            elif category == 'l':
+                lowList.append(bar[category])
+            elif category == 'o':
+                openList.append(bar[category])
+            elif category == 't':
+                timeList.append(bar[category])
+
+    price = closeList[-1]
+
+    # Konverter tid i millisekunder til datoer
+    times = []
+    for time in timeList:
+        times.append(pd.Timestamp(time, tz='GMT', unit='ms'))
+
+    fig = go.Figure()
+    fig.add_trace(go.Candlestick(x=times, open=openList,
+                  high=highList, low=lowList, close=closeList, name='graph'))
+    fig.update_layout(xaxis_rangeslider_visible=False)
+
+    graph = fig.to_html()
+    return graph, price
