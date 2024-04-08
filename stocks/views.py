@@ -111,19 +111,6 @@ def handle_transaction(request, stock_ticker):
     return render(request, 'stocks/handle_transaction.html', {'price': price, 'name': name, 'ticker': ticker})
 
 
-@login_required
-def sell(request, stock_ticker):
-    price_results = API_call("https://api.polygon.io/v2/aggs/ticker/", stock_ticker,
-                             "/range/1/day/2024-01-01/2024-03-01?adjusted=true&sort=asc&limit=120&apiKey=")
-
-    ticker_results = API_call(
-        "https://api.polygon.io/v3/reference/tickers/", stock_ticker, "?apiKey=")
-    # Udtag results fra data
-
-    price = get_price(price_results)
-    name, ticker = get_name_and_ticker(ticker_results)
-
-    return render(request, 'stocks/sell.html', {'price': price, 'name': name, 'ticker': ticker})
 
 
 def get_price(data):
