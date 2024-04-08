@@ -1,5 +1,5 @@
-{% extends "base.html" %} 
-{% block content %}
+{% extends "base.html" %} {% block content %}
+<h2>Portfolio</h2>
 <div class="container">
   <div class="row">
     <div class="col">
@@ -16,26 +16,18 @@
           </a>
           <ul class="dropdown-menu">
             <li>
-              <a class="dropdown-item" href="/portfolio/sort-ticker">Ticker name</a>
+              <a class="dropdown-item" href="/portfolio/sort-ticker"
+                >Ticker name</a
+              >
             </li>
-            <li><a class="dropdown-item" href="/portfolio/sort-price">Price</a></li>
+            <li>
+              <a class="dropdown-item" href="/portfolio/sort-price">Price</a>
+            </li>
           </ul>
         </div>
-
-        <form class="d-flex ms-2" role="search" id="searchForm">
-          <input
-            class="form-control me-2"
-            type="search"
-            placeholder="Search ticker symbol"
-            aria-label="Search"
-            id="searchInput"
-          />
-          <button class="btn btn-outline-success" type="submit">Search</button>
-        </form>
       </div>
     </div>
   </div>
-  <h2>Orders</h2>
   <table class="table">
     <thead>
       <tr>
@@ -50,34 +42,24 @@
     </thead>
     <tbody>
       {% for order in orders %}
-        <tr>
-          <td>{{ order.quantity }}</td>
-          <td>{{ order.stock.transactionDate }}</td>
-          <td>{{ order.stock.price }}</td>
-          <!-- <td>{{ order.isActive }}</td> -->
-          <td>{{ order.stock }}</td>
-          <td>{{ order.current_price }}</td>
-          
-          
-          <td>
-            
-            <a href="#" class="btn btn-danger" onclick="confirmSell('{{ order.id }}', '{{ order.stock.name }}')">Close stock</a>
-          </td>
-        </tr>
+      <tr>
+        <td>{{ order.quantity }}</td>
+        <td>{{ order.stock.transactionDate }}</td>
+        <td>{{ order.stock.price }}</td>
+        <!-- <td>{{ order.isActive }}</td> -->
+        <td>{{ order.stock }}</td>
+        <td>{{ order.current_price }}</td>
+
+        <td>
+          <a
+            href="./{{ order.id }}/{{ order.quantity }}/{{ order.current_price }}/sell-stock"
+            >Sell stock</a
+          >
+        </td>
+      </tr>
       {% endfor %}
     </tbody>
   </table>
 </div>
-<script>
-  function confirmSell(orderId, stockName) {
-    if (confirm("Are you sure you want to sell " + stockName + " stock?")) {
-        
-      order.isActive = false
-    }
-}
 
-
-
-  </script>
-  
 {% endblock %}
