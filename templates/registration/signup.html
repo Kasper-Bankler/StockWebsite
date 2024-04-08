@@ -7,11 +7,11 @@
 <form method="post">
   
   {% csrf_token %}
-  <div class="formm"></div>
+  <div class="formm">
   {{form.as_p}}
 </div>
   {% for field, error in form.errors.items %}
-  <div class="alert alert-danger my-3 p-1" role="alert">
+  <div class="alert alert-danger my-3 p-1 w-75" role="alert">
       {{ error|striptags }}
   </div>
   {% endfor %}
