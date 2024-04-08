@@ -12,6 +12,7 @@ from plotly import graph_objects as go
 import pandas as pd
 from .models import Order
 from StockWebsite.utils import quicksort, linear_search, get_price, get_name_and_ticker, API_call
+from django.http import JsonResponse
 # Create your views here.
 
 @login_required
@@ -39,6 +40,12 @@ def index(request, sort=None):
 
 
     return render(request, "index.html", {"orders": orders})
+
+def sell_stock(request, order_id):
+    order = get_object_or_404(Order, id=order_id)
+    order.isActive = False
+    order.save()
+    return JsonResponse({'message': 'Stock sold successfully'}, status=200)
 
     #Hent pris fra aktier gennem API
     
