@@ -12,7 +12,6 @@ urlpatterns = [
     path('search-<str:search>/', views.index, name='index'),
     path('<str:stock_ticker>/', views.detail, name='detail'),
     path('<str:stock_ticker>/buy', views.handle_transaction, name='handle_transaction'),
-    
     path('<str:stock_ticker>/<int:quantity>/<float:price>/process',
          views.process, name='process'),
     path("redirecting", views.redirect, name = "redirect"),
