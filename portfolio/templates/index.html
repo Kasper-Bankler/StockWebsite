@@ -33,53 +33,46 @@
           <button class="btn btn-outline-success" type="submit">Search</button>
         </form>
       </div>
-      
-        
-      </div>
-      <h2>Orders</h2>
-      <table class="table">
-        <thead>
-          <tr>
-            <th>Quantity</th>
-            <th>Transaction Date</th>
-            <th>Price ($)</th>
-            <!-- <th>Active?</th> -->
-            <th>Stock Name</th>
-            <th>Username</th>
-          </tr>
-          
-        </thead>
-        <tbody>
-          {% for order in orders %}
-            <tr>
-              <td>{{ order.quantity }}</td>
-              <td>{{ order.stock.transactionDate }}</td>
-              <td>{{ order.stock.price }}</td>
-              <!-- <td>{{ order.isActive }}</td> -->
-              <td>{{ order.stock }}</td>
-              <td>{{ order.user }}</td>
-              <td>
-              <a href="#" class="btn btn-danger" onclick="confirmSell('{{ order.id }}', '{{ order.stock }}')">Close stock</a>
-              </td>
-              
-            </tr>
-          {% endfor %}
-        </tbody>
-      </table>
     </div>
   </div>
+  <h2>Orders</h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Quantity</th>
+        <th>Transaction Date</th>
+        <th>Price ($)</th>
+        <!-- <th>Active?</th> -->
+        <th>Stock Name</th>
+        <th>Current price</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for order in orders %}
+        <tr>
+          <td>{{ order.quantity }}</td>
+          <td>{{ order.stock.transactionDate }}</td>
+          <td>{{ order.stock.price }}</td>
+          <!-- <td>{{ order.isActive }}</td> -->
+          <td>{{ order.stock }}</td>
+          <td>{{ order.current_price }}</td>
+          
+          <td>
+            <a href="#" class="btn btn-danger" onclick="confirmSell('{{ order.id }}', '{{ order.stock.name }}')">Close stock</a>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 </div>
 <script>
-  function confirmSell(orderId, stock) {
-    if (confirm("Are you sure you want to sell " +  stock + " stock?")) {
-      order.stock.isActive=false
+  function confirmSell(orderId, stockName) {
+    if (confirm("Are you sure you want to sell " + stockName + " stock?")) {
+      
+      // Perform further actions if confirmed
+      // You can redirect or make an AJAX call here
     }
   }
 </script>
-{% endblock %}
-
-{% block footer %}
-<div class="footer">
-  <p>2024 Ali, Victor og Kasper</p>
-</div>
 {% endblock %}

@@ -125,3 +125,17 @@ def create_graph(graph_data):
 
     graph = fig.to_html()
     return graph, price
+
+def get_price(data):
+    closeList = []
+    for price in data:
+        for category in price:
+            if category == 'c':
+                closeList.append(price[category])
+    return closeList[-1]
+
+
+def get_name_and_ticker(data):
+    name = data['name']
+    ticker = data['ticker']
+    return name, ticker

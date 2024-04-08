@@ -2,7 +2,7 @@ from django.http import HttpResponse, Http404
 from django.shortcuts import render, get_object_or_404
 from datetime import datetime
 
-from StockWebsite.utils import API_call, quicksort, linear_search, create_graph
+from StockWebsite.utils import API_call, quicksort, linear_search, create_graph, get_name_and_ticker, get_price
 from accounts.models import CustomUser
 from portfolio.models import Order
 from .models import Stock
@@ -126,16 +126,4 @@ def sell(request, stock_ticker):
     return render(request, 'stocks/sell.html', {'price': price, 'name': name, 'ticker': ticker})
 
 
-def get_price(data):
-    closeList = []
-    for price in data:
-        for category in price:
-            if category == 'c':
-                closeList.append(price[category])
-    return closeList[-1]
 
-
-def get_name_and_ticker(data):
-    name = data['name']
-    ticker = data['ticker']
-    return name, ticker

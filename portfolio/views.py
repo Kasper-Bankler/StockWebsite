@@ -11,7 +11,7 @@ import requests
 from plotly import graph_objects as go
 import pandas as pd
 from .models import Order
-from StockWebsite.utils import quicksort, linear_search
+from StockWebsite.utils import quicksort, linear_search, get_price, get_name_and_ticker, API_call
 # Create your views here.
 
 @login_required
@@ -19,14 +19,29 @@ def index(request, sort=None):
 
     # Fetch orders fra database
     orders = Order.objects.filter(user=request.user, isActive=True)
-    #orders = list(orders.values())  # Konverterer orders til list af dictionaries
-
+    
     if sort == 'price':
             #sorter orders med price via quicksort
-            quicksort(orders, 0, len(orders) - 1, "price", descending=True)
+            orders= sorted(orders, key=lambda x: x.stock.price, reverse=True)
+
+    for order in orders:
+        price_results = API_call("https://api.polygon.io/v2/aggs/ticker/", order.stock.ticker,
+                             "/range/1/day/2024-01-01/2024-03-01?adjusted=true&sort=asc&limit=120&apiKey=")
+        price = get_price(price_results)
+        if price is not None:
+             order.current_price = price
+    
+    
+
+        #order.current_price = get_price(ticker_results)
+    
+
+
 
     return render(request, "index.html", {"orders": orders})
 
+    #Hent pris fra aktier gennem API
+    
     #Ny forsøg:
 
     # Fetch orders from database
