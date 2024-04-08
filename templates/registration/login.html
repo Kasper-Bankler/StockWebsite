@@ -10,7 +10,7 @@
 {% else %}
 <p>Please login to see this page.</p>
 {% endif %} {% endif %}
-
+<h2 class="display-2 my-3">Login</h2>
 <form method="post" action="{% url 'login' %}">
   {% csrf_token %}
   <table>
@@ -23,12 +23,28 @@
       <td>{{ form.password }}</td>
     </tr>
   </table>
-  <input type="submit" class="btn btn-primary" value="login" />
+  <input type="submit" class="btn btn-primary my-3" value="login" />
   <input type="hidden" name="next" value="{{ next }}" />
 </form>
 
 {# Assumes you set up the password_reset view in your URLconf #}
 <p>Dont have an account? Sign up<a href="{% url 'signup' %}"> here!</a></p>
 <p><a href="{% url 'password_reset' %}">Lost password?</a></p>
+<style>
+  p{
+    margin: 10px;
 
+  }
+  label, td{
+    font-weight: bold;
+    margin: 0 10px;
+  }
+  
+  li{
+    form-style:italic;
+  }
+  .helptext{
+    font-style: italic;
+  }
+</style>
 {% endblock %}
