@@ -62,21 +62,18 @@ def detail(request, stock_ticker):
 
     news = API_call(
         "https://api.polygon.io/v2/reference/news?ticker=", stock_ticker, "&limit=3&apiKey=")
-
+    
     return render(request, 'stocks/detail.html', {'stock': ticker_results, 'graph': graph, 'price': price, 'news': news})
 
 
 @login_required
-def process(request, stock_ticker, quantity, type, price):
+def process(request, stock_ticker, quantity, price):
     
     # opret en ordre her og redirect til portfolio
     
     cost = quantity * price
     
-    if (type=="buy"):
-        boolType=True
-    else:
-        boolType=False
+    
 
     #fra https://docs.djangoproject.com/en/dev/ref/models/querysets/#get-or-create
     stock_obj, created = Stock.objects.get_or_create(
@@ -86,7 +83,7 @@ def process(request, stock_ticker, quantity, type, price):
 
 )
     
-    order_obj=Order(quantity=quantity,isBuyOrder=boolType,user=request.user,stock=stock_obj)
+    order_obj=Order(quantity=quantity,user=request.user,stock=stock_obj)
 
     currentUser=request.user
 
@@ -95,13 +92,13 @@ def process(request, stock_ticker, quantity, type, price):
     order_obj.save()
     currentUser.save()
 
-    return render(request, 'stocks/process_trade.html', {'stockTicker': stock_ticker, 'quantity': quantity, 'price': price, 'type': type})
+    return render(request, 'stocks/process_trade.html', {'stockTicker': stock_ticker, 'quantity': quantity, 'price': price})
 
 def redirect(request):
     return render(request, 'portfolio/index.html')
 
 @login_required
-def handle_transaction(request, stock_ticker,transaction_type):
+def handle_transaction(request, stock_ticker):
     
     price_results = API_call("https://api.polygon.io/v2/aggs/ticker/", stock_ticker,
                              "/range/1/day/2024-01-01/2024-03-01?adjusted=true&sort=asc&limit=120&apiKey=")
@@ -113,12 +110,8 @@ def handle_transaction(request, stock_ticker,transaction_type):
     price = get_price(price_results)
     name, ticker = get_name_and_ticker(ticker_results)
 
-    if transaction_type=="buy":
-        contextType=True
-    else:
-        contextType=False
 
-    return render(request, 'stocks/handle_transaction.html', {'price': price, 'name': name, 'ticker': ticker,'type':contextType})
+    return render(request, 'stocks/handle_transaction.html', {'price': price, 'name': name, 'ticker': ticker})
 
 
 @login_required

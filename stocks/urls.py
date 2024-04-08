@@ -13,7 +13,7 @@ urlpatterns = [
     path('<str:stock_ticker>/', views.detail, name='detail'),
     path('<str:stock_ticker>/<str:transaction_type>', views.handle_transaction, name='handle_transaction'),
     
-    path('<str:stock_ticker>/<int:quantity>/<str:type>/<float:price>/process',
+    path('<str:stock_ticker>/<int:quantity>/<float:price>/process',
          views.process, name='process'),
     path("redirecting", views.redirect, name = "redirect"),
 ]

@@ -21,7 +21,7 @@
     />
   
   <h2>Total Price: <span id="total-price"></span></h2>
-  <button type="submit" class="btn btn-{{type|yesno:"success,danger"}}">{{type|yesno:"buy,sell"}}</button>
+  <button type="submit" class="btn btn-success">Buy</button>
 </form>
 
 <script>
@@ -42,14 +42,13 @@
   buyForm.addEventListener("submit", (e) => {
     e.preventDefault();
     const user_balance={{user.balance}};
-    const type='{{type}}'=='True'
     if (totalPrice==0){
       alert("Please enter a valid amount!");
     }else if (totalPrice>user_balance){
       alert("Insufficient funds");
     }else{
       console.log("run")
-      window.location.assign(`./${quantity}/${type?'buy':'sell'}/${price}/process`);
+      window.location.assign(`./${quantity}/${price}/process`);
     }
     
 
