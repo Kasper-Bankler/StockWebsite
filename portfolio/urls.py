@@ -7,6 +7,7 @@ app_name = 'portfolio'
 urlpatterns = [
     path('', views.index, name='index'),
     path('sort-'+'<str:sort>/', views.index, name='index'),
-    path("portfolio", views.index, name = "index")
+    path("portfolio", views.index, name = "index"),
+    path("portfolio/sell", views.index, name = "index"),
     #path('<str:portfolio_ticker>/', views.detail, name='detail')
 ]

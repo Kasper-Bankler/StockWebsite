@@ -19,10 +19,22 @@ def index(request, sort=None):
 
     # Fetch orders fra database
     orders = Order.objects.filter(user=request.user, isActive=True)
-    orders = list(orders.values())  # Konverterer orders til list af dictionaries
+    #orders = list(orders.values())  # Konverterer orders til list af dictionaries
 
     if sort == 'price':
-        # sorter orders med price via quicksort
-        quicksort(orders, 0, len(orders) - 1, "price", descending=True)
+            #sorter orders med price via quicksort
+            quicksort(orders, 0, len(orders) - 1, "price", descending=True)
 
     return render(request, "index.html", {"orders": orders})
+
+    #Ny forsøg:
+
+    # Fetch orders from database
+    #orders = Order.objects.filter(user=request.user, isActive=True)
+
+    #if sort == 'price':
+        # Sort orders by price using quicksort
+     #   orders = orders.order_by('-price')  # Assuming you want descending order by price
+
+    #return render(request, "index.html", {"orders": orders})
+
