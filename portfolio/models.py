@@ -12,8 +12,6 @@ class Order(models.Model):
     quantity = models.IntegerField(default=0)
     
     
-    isBuyOrder = models.BooleanField(max_length=255, default=True)
-    
     isActive = models.BooleanField(max_length=255, default=True)
     #Hvis en stock slettes, slettes alle stocks i portfolien også
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)

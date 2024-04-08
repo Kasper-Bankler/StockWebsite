@@ -17,9 +17,11 @@
         
         margin: 0 auto;
       }
+
       .zoom:hover {
         transform: scale(1.1); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
       }
+    
       position: absolute;
       bottom: 0;
       width: 100%;
@@ -50,7 +52,7 @@
         </div>
       
     </nav>
-    <main class="container py-4">{% block content %} {% endblock %}</main>
+    <main class="container py-4 mains" >{% block content %} {% endblock %}</main>
     <footer class="py-3 my-4">
       <ul class="nav justify-content-center border-bottom pb-3 mb-3">
 
