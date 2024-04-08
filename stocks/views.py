@@ -2,14 +2,12 @@ from django.http import HttpResponse, Http404
 from django.shortcuts import render, get_object_or_404
 from datetime import datetime
 
-from StockWebsite.utils import API_call, quicksort, linear_search
+from StockWebsite.utils import API_call, quicksort, linear_search, create_graph
 from accounts.models import CustomUser
 from portfolio.models import Order
 from .models import Stock
 from django.contrib.auth.decorators import login_required
 
-from plotly import graph_objects as go
-import pandas as pd
 
 # Function to find the partition position
 
@@ -62,44 +60,44 @@ def detail(request, stock_ticker):
 
     news = API_call(
         "https://api.polygon.io/v2/reference/news?ticker=", stock_ticker, "&limit=3&apiKey=")
-    
+
     return render(request, 'stocks/detail.html', {'stock': ticker_results, 'graph': graph, 'price': price, 'news': news})
 
 
 @login_required
 def process(request, stock_ticker, quantity, price):
-    
+
     # opret en ordre her og redirect til portfolio
-    
+
     cost = quantity * price
-    
-    
 
-    #fra https://docs.djangoproject.com/en/dev/ref/models/querysets/#get-or-create
+    # fra https://docs.djangoproject.com/en/dev/ref/models/querysets/#get-or-create
     stock_obj, created = Stock.objects.get_or_create(
-    price=price,
-    ticker=stock_ticker,
-    transactionDate=datetime.now().replace(second=0,microsecond=0)
+        price=price,
+        ticker=stock_ticker,
+        transactionDate=datetime.now().replace(second=0, microsecond=0)
 
-)
-    
-    order_obj=Order(quantity=quantity,user=request.user,stock=stock_obj)
+    )
 
-    currentUser=request.user
+    order_obj = Order(quantity=quantity, user=request.user, stock=stock_obj)
 
-    currentUser.balance=currentUser.balance-cost
+    currentUser = request.user
+
+    currentUser.balance = currentUser.balance-cost
 
     order_obj.save()
     currentUser.save()
 
     return render(request, 'stocks/process_trade.html', {'stockTicker': stock_ticker, 'quantity': quantity, 'price': price})
 
+
 def redirect(request):
     return render(request, 'portfolio/index.html')
 
+
 @login_required
 def handle_transaction(request, stock_ticker):
-    
+
     price_results = API_call("https://api.polygon.io/v2/aggs/ticker/", stock_ticker,
                              "/range/1/day/2024-01-01/2024-03-01?adjusted=true&sort=asc&limit=120&apiKey=")
 
@@ -109,7 +107,6 @@ def handle_transaction(request, stock_ticker):
 
     price = get_price(price_results)
     name, ticker = get_name_and_ticker(ticker_results)
-
 
     return render(request, 'stocks/handle_transaction.html', {'price': price, 'name': name, 'ticker': ticker})
 
@@ -127,46 +124,6 @@ def sell(request, stock_ticker):
     name, ticker = get_name_and_ticker(ticker_results)
 
     return render(request, 'stocks/sell.html', {'price': price, 'name': name, 'ticker': ticker})
-
-
-def create_graph(graph_data):
-    # Udtag results fra data
-
-    rawData = graph_data
-
-    closeList = []
-    openList = []
-    highList = []
-    lowList = []
-    timeList = []
-
-    for bar in rawData:
-        for category in bar:
-            if category == 'c':
-                closeList.append(bar[category])
-            elif category == "h":
-                highList.append(bar[category])
-            elif category == 'l':
-                lowList.append(bar[category])
-            elif category == 'o':
-                openList.append(bar[category])
-            elif category == 't':
-                timeList.append(bar[category])
-
-    price = closeList[-1]
-
-    # Konverter tid i millisekunder til datoer
-    times = []
-    for time in timeList:
-        times.append(pd.Timestamp(time, tz='GMT', unit='ms'))
-
-    fig = go.Figure()
-    fig.add_trace(go.Candlestick(x=times, open=openList,
-                  high=highList, low=lowList, close=closeList, name='graph'))
-    fig.update_layout(xaxis_rangeslider_visible=False)
-
-    graph = fig.to_html()
-    return graph, price
 
 
 def get_price(data):
