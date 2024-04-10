@@ -48,15 +48,29 @@
         <td>{{ order.current_price }}</td>
         <td>{{ order.quantity }}</td>
         <td>{{ order.stock.transactionDate }}</td>
-
         <td>
-          
-          <a href="./{{ order.id }}/{{ order.quantity }}/{{ order.current_price }}/sell-stock" class="btn btn-danger">Close Order</a> 
+          <a
+            href="#"
+            onclick="confirmSell('{{ order.id }}', '{{ order.quantity }}', '{{ order.current_price }}')"
+            class="btn btn-danger"
+            >Close Order</a
+          >
         </td>
       </tr>
       {% endfor %}
     </tbody>
   </table>
 </div>
+
+<script>
+  function confirmSell(orderId, quantity, price) {
+    var confirmation = confirm("Are you sure you want to sell?");
+    if (confirmation) {
+      var sellUrl =
+        "./" + orderId + "/" + quantity + "/" + price + "/sell-stock";
+      window.location.href = sellUrl;
+    }
+  }
+</script>
 
 {% endblock %}
