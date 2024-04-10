@@ -16,7 +16,10 @@ class SignUpView(CreateView):
 @login_required
 def ProfileView(request):
     
-    stocks = list(Order.objects.filter(user=request.user))
-    if not stocks:
-        stocks=[{'ticker':"no stocks",'quantity':0}]
-    return render(request, "profile.html",{'stocks':stocks})
+    # stocks = list(Order.objects.filter(user=request.user))
+    # if not stocks:
+    #     stocks=[{'ticker':"no stocks",'quantity':0}]
+
+    balance=round(request.user.balance,2)
+
+    return render(request, "profile.html",{'bal':balance})

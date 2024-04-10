@@ -31,30 +31,27 @@
   <table class="table">
     <thead>
       <tr>
+        <th>Stock Name</th>
+        <th>Price ($)</th>
+        <th>Current price ($)</th>
         <th>Quantity</th>
         <th>Transaction Date</th>
-        <th>Price ($)</th>
         <!-- <th>Active?</th> -->
-        <th>Stock Name</th>
-        <th>Current price</th>
         <th>Actions</th>
       </tr>
     </thead>
     <tbody>
       {% for order in orders %}
       <tr>
+        <td>{{ order.stock }}</td>
+        <td>{{ order.stock.price }}</td>
+        <td>{{ order.current_price }}</td>
         <td>{{ order.quantity }}</td>
         <td>{{ order.stock.transactionDate }}</td>
-        <td>{{ order.stock.price }}</td>
-        <!-- <td>{{ order.isActive }}</td> -->
-        <td>{{ order.stock }}</td>
-        <td>{{ order.current_price }}</td>
 
         <td>
-          <a
-            href="./{{ order.id }}/{{ order.quantity }}/{{ order.current_price }}/sell-stock"
-            >Sell stock</a
-          >
+          
+          <a href="./{{ order.id }}/{{ order.quantity }}/{{ order.current_price }}/sell-stock" class="btn btn-danger">Close Order</a> 
         </td>
       </tr>
       {% endfor %}

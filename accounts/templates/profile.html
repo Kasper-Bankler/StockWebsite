@@ -2,7 +2,7 @@
 {%block content %}
 <div class="on my-3 p-3">
   <h1>Hello {{user.username}}!</h1>
-  <h2>Your current balance is: {{user.balance}}$</h2>
+  <h2>Your current balance is: {{bal}}$</h2>
   <p>{{stocks.0.ticker}}</p>
 
   <form id="logout-form" method="post" action="{% url 'admin:logout' %}">

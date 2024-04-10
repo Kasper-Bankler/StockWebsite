@@ -54,7 +54,7 @@ def detail(request, stock_ticker):
         "https://api.polygon.io/v3/reference/tickers/", stock_ticker, "?apiKey=")
 
     graph_data = API_call("https://api.polygon.io/v2/aggs/ticker/", stock_ticker,
-                          "/range/1/day/2024-01-01/2024-03-01?adjusted=true&sort=asc&limit=120&apiKey=")
+                          "/range/1/day/2024-01-01/2024-04-01?adjusted=true&sort=asc&limit=120&apiKey=")
 
     graph, price = create_graph(graph_data)
 
