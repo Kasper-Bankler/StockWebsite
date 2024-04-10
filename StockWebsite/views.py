@@ -15,7 +15,3 @@ def home(request):
 
     return render(request, 'home.html', {'graph': graph, 'news': news})
 
-
-def index(request):
-    portfolio = portfolio.objects.all()
-    return render(request, "index.html", {"portfolio": portfolio})
