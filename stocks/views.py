@@ -107,8 +107,8 @@ def handle_transaction(request, stock_ticker):
 
     price = get_price(price_results)
     name, ticker = get_name_and_ticker(ticker_results)
-
-    return render(request, 'stocks/handle_transaction.html', {'price': price, 'name': name, 'ticker': ticker})
+    balance=round(request.user.balance,2)
+    return render(request, 'stocks/handle_transaction.html', {'price': price, 'name': name, 'ticker': ticker,'bal':balance})
 
 
 
