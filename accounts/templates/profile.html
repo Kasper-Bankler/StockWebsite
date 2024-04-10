@@ -5,6 +5,11 @@
   <h2>Your current balance is: {{bal}}$</h2>
   <p>{{stocks.0.ticker}}</p>
 
+  <p>
+    <a class="link-opacity-75-hover" href="/portfolio"
+      >See your portfolio here</a
+    >
+  </p>
   <form id="logout-form" method="post" action="{% url 'admin:logout' %}">
     {% csrf_token %}
     <button type="submit" class="btn btn-danger">Logout</button>
