@@ -37,6 +37,7 @@
     <tr>
       <th>Ticker</th>
       <th>Price</th>
+      
     </tr>
   </thead>
   <tbody>
@@ -46,6 +47,7 @@
         <a href="{% url 'stocks:detail' stock.T %}">{{stock.T}}</a>
       </td>
       <td>{{stock.c}}</td>
+      
     </tr>
     {% endfor %}
   </tbody>

@@ -1,7 +1,10 @@
 <! -- Kilde: "Django Tutorial Part 8: User authentication and permissions" ved https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Authentication  -->
 
-{% extends "base.html" %} {% block content %} {% if form.errors %}
-<p>Your username and password didn't match. Please try again.</p>
+{% extends "base.html" %} {% block content %}
+ {% if form.errors %}
+<p class="alert alert-danger">
+  Your username and password didn't match. Please try again.
+</p>
 {% endif %} {% if next %} {% if user.is_authenticated %}
 <p>
   Your account doesn't have access to this page. To proceed, please login with
@@ -29,21 +32,21 @@
 
 {# Assumes you set up the password_reset view in your URLconf #}
 <p>Dont have an account? Sign up<a href="{% url 'signup' %}"> here!</a></p>
-<p><a href="{% url 'password_reset' %}">Lost password?</a></p>
-<style>
-  p{
-    margin: 10px;
 
+<style>
+  p {
+    margin: 10px;
   }
-  label, td{
+  label,
+  td {
     font-weight: bold;
     margin: 0 10px;
   }
-  
-  li{
-    form-style:italic;
+
+  li {
+    form-style: italic;
   }
-  .helptext{
+  .helptext {
     font-style: italic;
   }
 </style>
