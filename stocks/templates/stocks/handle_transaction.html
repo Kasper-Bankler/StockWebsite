@@ -1,69 +1,62 @@
 {% extends "base.html" %} {% block content %}
 <h1>{{name}} ({{ticker}})</h1>
-<br></br>
+<br />
 <h2>Price: {{price}}$</h2>
-<br></br>
+<br />
 <h2>Your current balance: {{bal}}$</h2>
-  
-  <form 
-  class="mb-3" 
-  method="post" 
 
-  id="buyForm" >
+<form class="mb-3" method="post" id="buyForm">
   {% csrf_token %}
-    <label class="form-label mt-5">
-      <h2>
-      Quantity
-    </h2>
-    </label>
-    
-    <input
-      type="number"
-      class="form-control mb-5"
-      value="{{quantity}}"
-      name="quantity"
-      id="quantity-input"
-      oninput="calculateTotal()"
-    />
-  
+  <label class="form-label mt-5">
+    <h2>Quantity</h2>
+  </label>
+
+  <input
+    type="number"
+    class="form-control mb-5"
+    value="{{quantity}}"
+    name="quantity"
+    id="quantity-input"
+    oninput="calculateTotal()"
+  />
+
   <h2>Total Price: <span id="total-price"></span></h2>
-  <button type="submit" class="btn btn-primary btn-lg ">Buy</button>
+  <button type="submit" class="btn btn-primary btn-lg">Buy</button>
 </form>
 
 <script>
-  var totalPrice=0
-  var price=0
-  var quantity=0
-  function calculateTotal() {
-      price = {{ price }};
-      quantity = document.getElementById('quantity-input').value;
-      totalPrice = price * quantity;
-      if (quantity<0){
-        document.getElementById('total-price').innerText="Please enter a valid amount"
-      }else{
-      document.getElementById('total-price').innerText = totalPrice.toFixed(2)+"$";
-      }
-  }
- 
-  let buyForm = document.getElementById("buyForm");
-
-//ALIS KODESTYKKE PIL IKKE
-
-  buyForm.addEventListener("submit", (e) => {
-    e.preventDefault();
-    const user_balance={{user.balance}};
-    if (quantity<=0){
-      alert("Please enter a valid amount!");
-    }else if (totalPrice>user_balance){
-      alert("Insufficient funds");
-    }else{
-      console.log("run")
-      window.location.assign(`./${quantity}/${price}/process`);
+    var totalPrice=0
+    var price=0
+    var quantity=0
+    function calculateTotal() {
+        price = {{ price }};
+        quantity = document.getElementById('quantity-input').value;
+        totalPrice = price * quantity;
+        if (quantity<0){
+          document.getElementById('total-price').innerText="Please enter a valid amount"
+        }else{
+        document.getElementById('total-price').innerText = totalPrice.toFixed(2)+"$";
+        }
     }
-    
 
-    
-  });
-  
+    let buyForm = document.getElementById("buyForm");
+
+  //ALIS KODESTYKKE PIL IKKE
+
+    buyForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const user_balance={{user.balance}};
+      if (quantity<=0){
+        alert("Please enter a valid amount!");
+      }else if (totalPrice>user_balance){
+        alert("Insufficient funds");
+      }else{
+        console.log("run")
+        window.location.assign(`./${quantity}/${price}/process`);
+      }
+
+
+
+    });
 </script>
 {% endblock %}
