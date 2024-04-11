@@ -1,3 +1,4 @@
+#Oprettelse af ny custom URL converter med typen float. kilde: https://docs.djangoproject.com/en/5.0/topics/http/urls/
 class FloatUrlParameterConverter:
     regex = '[0-9]+\.?[0-9]+'  # Regex mønsteret der matcher en float-værdi
 
