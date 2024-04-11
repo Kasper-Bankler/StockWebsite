@@ -1,6 +1,7 @@
 from django.urls import path, register_converter
 from . import converters, views
 
+# Opstilling af nye url af typen float
 register_converter(converters.FloatUrlParameterConverter, 'float')
 
 # Dette angiver navnet på denne Django-applikation.
@@ -18,5 +19,4 @@ urlpatterns = [
          name='handle_transaction'),
     path('<str:stock_ticker>/<int:quantity>/<float:price>/process',
          views.process, name='process'),
-    
 ]

@@ -2,7 +2,6 @@ from datetime import datetime
 from django.db import models
 
 
-
 class Stock(models.Model):
     # Dette er en model til at repræsentere aktier.
     transactionDate = models.DateTimeField(default=datetime.now())
