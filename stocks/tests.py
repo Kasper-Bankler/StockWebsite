@@ -1,5 +1,4 @@
 from django.test import TestCase
-
 from StockWebsite.utils import partition, quicksort, linear_search
 
 

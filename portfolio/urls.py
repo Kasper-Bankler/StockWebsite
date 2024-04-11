@@ -9,6 +9,5 @@ urlpatterns = [
     path('sort-'+'<str:sort>/', views.index, name='index'),
     path("portfolio", views.index, name="index"),
     path('<int:orderID>/<int:quantity>/<float:price>/sell-stock',
-         views.sell_stock, name='sell_stock'),
-    # path('<str:portfolio_ticker>/', views.detail, name='detail')
+         views.sell_stock, name='sell_stock')
 ]

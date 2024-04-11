@@ -15,14 +15,11 @@ class Sector(models.Model):
 
 class Stock(models.Model):
     transactionDate = models.DateTimeField(default=datetime.now())
-    ticker = models.CharField(max_length=255,default='')
-    # Hvis en sector slettes, slettes alle aktier i den også
-    price = models.FloatField(max_length=255,default=0.0)
-    
- 
+    ticker = models.CharField(max_length=255, default='')
+    price = models.FloatField(max_length=255, default=0.0)
 
     def save(self, *args, **kwargs):
-        self.transactionDate = datetime.now().replace(second=0,microsecond=0)
+        self.transactionDate = datetime.now().replace(second=0, microsecond=0)
         super(Stock, self).save(*args, **kwargs)
 
     class Meta:
@@ -30,5 +27,3 @@ class Stock(models.Model):
 
     def __str__(self):
         return self.ticker
-
-   

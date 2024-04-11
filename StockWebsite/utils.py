@@ -60,8 +60,6 @@ def linear_search(tickers, target):
 
 def API_call(url1, stockTicker="", url2=""):
     API_call.counter += 1
-    print("***************")
-    print(API_call.counter)
 
     if API_call.counter % 3 == 0:
         apiKey = apiKey1
@@ -124,6 +122,7 @@ def create_graph(graph_data):
 
     graph = fig.to_html()
     return graph, price
+
 
 def get_price(data):
     closeList = []

@@ -1,9 +1,7 @@
-from django.http import HttpResponse, Http404
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render
 from datetime import datetime
 
 from StockWebsite.utils import API_call, quicksort, linear_search, create_graph, get_name_and_ticker, get_price
-from accounts.models import CustomUser
 from portfolio.models import Order
 from .models import Stock
 from django.contrib.auth.decorators import login_required
@@ -107,10 +105,5 @@ def handle_transaction(request, stock_ticker):
 
     price = get_price(price_results)
     name, ticker = get_name_and_ticker(ticker_results)
-    balance=round(request.user.balance,2)
-    return render(request, 'stocks/handle_transaction.html', {'price': price, 'name': name, 'ticker': ticker,'bal':balance})
-
-
-
-
-
+    balance = round(request.user.balance, 2)
+    return render(request, 'stocks/handle_transaction.html', {'price': price, 'name': name, 'ticker': ticker, 'bal': balance})

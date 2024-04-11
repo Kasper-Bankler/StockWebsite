@@ -1,10 +1,8 @@
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView
-from django.shortcuts import get_list_or_404, render
-from .models import CustomUser
+from django.shortcuts import render
 from .forms import CustomUserCreationForm
 from django.contrib.auth.decorators import login_required
-from portfolio.models import Order
 
 
 class SignUpView(CreateView):
@@ -15,7 +13,7 @@ class SignUpView(CreateView):
 
 @login_required
 def ProfileView(request):
-    
-    balance=round(request.user.balance,2)
 
-    return render(request, "profile.html",{'bal':balance})
+    balance = round(request.user.balance, 2)
+
+    return render(request, "profile.html", {'bal': balance})

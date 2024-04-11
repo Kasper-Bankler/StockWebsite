@@ -1,24 +1,22 @@
-{% extends "base.html" %}
-{% block title %}Processing trade{% endblock title %}
+{% extends "base.html" %} {% block title %}Processing trade{% endblock title %}
 {% block content %}
-    <div class="on my-3 p-3">
-        <h1>Processing the purchase of {{quantity}} volume for the stock {{stockTicker}} at {{price}}$.
-            <br></br>
-            <div class="spinner-border spinner-border-xl" role="status">
-                <span class="sr-only"></span>
-              </div>
-            Please wait...
-            
-        </h1>
-        
-        {{index}}
+<div class="on my-3 p-3">
+  <h1>
+    Processing the purchase of {{quantity}} volume for the stock {{stockTicker}}
+    at {{price}}$.
+    <div class="spinner-border spinner-border-xl" role="status">
+      <span class="sr-only"></span>
     </div>
-    <script>
-        function delay(time) {
-            return new Promise(resolve => setTimeout(resolve, time));
-          }
-        delay(3000).then(() => window.location.assign("../../../../../portfolio"));
+    Please wait...
+  </h1>
 
-    </script>
+  {{index}}
+</div>
+<script>
+  function delay(time) {
+    return new Promise((resolve) => setTimeout(resolve, time));
+  }
+  delay(3000).then(() => window.location.assign("../../../../../portfolio"));
+</script>
 
 {% endblock content %}

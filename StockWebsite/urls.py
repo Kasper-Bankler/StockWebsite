@@ -20,12 +20,15 @@ from . import views
 
 urlpatterns = [
     path('', views.home),
+    # Url der starter med admin, bliver behandlet af admin appen.
     path("admin/", admin.site.urls),
 
+    # Url der starter med accounts, bliver behandlet af accounts appen.
     path("accounts/", include("accounts.urls")),  # new
     path('accounts/', include('django.contrib.auth.urls')),
 
     # Url der starter med stocks, bliver behandlet af stocks appen.
     path("stocks/", include("stocks.urls")),
+    # Url der starter med portfolio, bliver behandlet af portfolio appen.
     path("portfolio/", include("portfolio.urls"))
 ]
