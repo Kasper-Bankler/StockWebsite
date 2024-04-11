@@ -2,14 +2,6 @@ from datetime import datetime
 from django.db import models
 
 
-class Sector(models.Model):
-    # Denne klasse gør brug af indkapsling og arv
-    name = models.CharField(max_length=255)
-
-    def __str__(self):  # Magic method
-        # Navnet af en sektor repræsenteres som en string
-        return self.name
-
 
 class Stock(models.Model):
     # Dette er en model til at repræsentere aktier.

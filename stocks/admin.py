@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Sector, Stock
+from .models import  Stock
 
 
 class SectorAdmin(admin.ModelAdmin):
@@ -13,5 +13,4 @@ class StockAdmin(admin.ModelAdmin):
 
 
 # Registrerer modellerne til admin
-admin.site.register(Sector, SectorAdmin)
 admin.site.register(Stock, StockAdmin)
