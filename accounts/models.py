@@ -6,14 +6,8 @@ from django.db import models
 
 
 class CustomUser(AbstractUser):
-<<<<<<< HEAD
-
-    balance=models.FloatField(default=100000)
-    
-=======
     balance = models.FloatField(default=100000)
 
->>>>>>> 8b334d538d9e9003ad4f85fdaac9ed0ecf25855c
     class Meta:
         app_label = 'accounts'
 

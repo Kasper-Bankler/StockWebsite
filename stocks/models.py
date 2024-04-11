@@ -15,17 +15,8 @@ class Sector(models.Model):
 
 class Stock(models.Model):
     transactionDate = models.DateTimeField(default=datetime.now())
-<<<<<<< HEAD
-    ticker = models.CharField(max_length=255,default='')
-    
-    # Hvis en sector slettes, slettes alle aktier i den også
-    price = models.FloatField(max_length=255,default=0.0)
-    
- 
-=======
     ticker = models.CharField(max_length=255, default='')
     price = models.FloatField(max_length=255, default=0.0)
->>>>>>> 8b334d538d9e9003ad4f85fdaac9ed0ecf25855c
 
     def save(self, *args, **kwargs):
         self.transactionDate = datetime.now().replace(second=0, microsecond=0)
