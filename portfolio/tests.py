@@ -1,6 +1,4 @@
 from django.test import TestCase
-from portfolio.models import Order
-from portfolio.views import index
 
 
 class YourTestClass(TestCase):

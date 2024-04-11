@@ -1,6 +1,4 @@
 from django.shortcuts import render
-# from .models import Portfolio
-from django.http import HttpResponse
 from StockWebsite.utils import API_call, create_graph
 
 
@@ -13,4 +11,3 @@ def home(request):
     news = API_call("https://api.polygon.io/v2/reference/news?ticker=", "SPY", "&limit=3&apiKey=")
 
     return render(request, 'home.html', {'graph': graph, 'news': news})
-
