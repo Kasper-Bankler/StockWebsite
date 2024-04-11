@@ -3,15 +3,15 @@ from .models import Sector, Stock
 
 
 class SectorAdmin(admin.ModelAdmin):
-    # Denne klasse viser id og navn på admin siden
     list_display = ('id', 'name')
+    # Viser id og navn for sektorobjekter i admin-interfacet
 
 
 class StockAdmin(admin.ModelAdmin):
-    # Denne klasse viser id, navn og ticker på admin siden
     list_display = ('price', 'ticker', 'transactionDate')
+    # Viser pris, ticker og transaktionsdato for aktieobjekter i admin-interfacet
 
 
-# Register your models here.
+# Registrerer modellerne til admin
 admin.site.register(Sector, SectorAdmin)
 admin.site.register(Stock, StockAdmin)

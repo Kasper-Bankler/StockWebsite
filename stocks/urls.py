@@ -3,7 +3,10 @@ from . import converters, views
 
 register_converter(converters.FloatUrlParameterConverter, 'float')
 
+# Dette angiver navnet på denne Django-applikation.
 app_name = 'stocks'
+
+
 # Denne liste mapper url endpoints til view funktioner (url configuration)
 # Django kalder automatisk funktionerne når siden loades
 urlpatterns = [
