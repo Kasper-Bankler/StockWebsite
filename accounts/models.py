@@ -1,11 +1,12 @@
 from django.contrib.auth.models import AbstractUser, Group, Permission
 from django.db import models
-# Vi inheriterer data fra AbstractUser, som er en klasse django har lavet for os,
-#  for at få authentication fra brugeren,
+# CustomUser arver fra Djangos indbyggede AbstractUser model
+
 # der indeholder hvor mange penge brugeren har
 
 
 class CustomUser(AbstractUser):
+    #Der tilføjes et felt som er brugerens saldo
     balance = models.FloatField(default=100000)
 
     class Meta:
