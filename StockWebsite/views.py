@@ -8,7 +8,6 @@ def home(request):
 
     graph, price = create_graph(graph_data)
 
-    news = API_call(
-        "https://api.polygon.io/v2/reference/news?ticker=", "SPY", "&limit=3&apiKey=")
+    news = API_call("https://api.polygon.io/v2/reference/news?ticker=", "SPY", "&limit=3&apiKey=")
 
     return render(request, 'home.html', {'graph': graph, 'news': news})

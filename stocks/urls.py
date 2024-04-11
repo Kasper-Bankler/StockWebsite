@@ -18,5 +18,5 @@ urlpatterns = [
          name='handle_transaction'),
     path('<str:stock_ticker>/<int:quantity>/<float:price>/process',
          views.process, name='process'),
-    path("redirecting", views.redirect, name="redirect"),
+    
 ]

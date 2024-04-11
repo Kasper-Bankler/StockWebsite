@@ -92,11 +92,6 @@ def process(request, stock_ticker, quantity, price):
     return render(request, 'stocks/process_trade.html', {'stockTicker': stock_ticker, 'quantity': quantity, 'price': price})
 
 
-def redirect(request):
-    # Omdiriger brugeren til porteføljesiden
-    return render(request, 'portfolio/index.html')
-
-
 @login_required
 def handle_transaction(request, stock_ticker):
     # Funktion til at håndtere en transaktion
