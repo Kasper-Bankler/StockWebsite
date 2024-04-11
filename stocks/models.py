@@ -16,6 +16,7 @@ class Sector(models.Model):
 class Stock(models.Model):
     transactionDate = models.DateTimeField(default=datetime.now())
     ticker = models.CharField(max_length=255,default='')
+    
     # Hvis en sector slettes, slettes alle aktier i den også
     price = models.FloatField(max_length=255,default=0.0)
     
