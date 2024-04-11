@@ -59,8 +59,10 @@ def linear_search(tickers, target):
 
 
 def API_call(url1, stockTicker="", url2=""):
+    # increment counter
     API_call.counter += 1
 
+    # Vælg API-nøgle baseret på counter
     if API_call.counter % 3 == 0:
         apiKey = apiKey1
     elif API_call.counter % 3 == 1:
@@ -68,33 +70,41 @@ def API_call(url1, stockTicker="", url2=""):
     else:
         apiKey = apiKey3
 
+    # Opsæt headers med api key
     headers = {
         "Authorization": "Bearer "+apiKey
     }
+
+    # Konstruer API-opkaldets URL og foretag anmodning
     if (stockTicker != ""):
         callUrl = url1+stockTicker+url2+apiKey
         response = requests.get(callUrl, headers=headers)
     else:
         callUrl = url1+apiKey
         response = requests.get(callUrl, headers=headers)
+
+    # Konverter respons til JSON-format og returner resultatet
     data = response.json()
     return (data['results'])
 
 
+# Initialiser  API-opkald counter
 API_call.counter = 0
 
 
 def create_graph(graph_data):
-    # Udtag results fra data
 
+    # gem rå data
     rawData = graph_data
 
+    # Opret tomme lister til at gemme dataene
     closeList = []
     openList = []
     highList = []
     lowList = []
     timeList = []
 
+    # Loop gennem dataene og adskil dem i de forskellige lister baseret på kategori
     for bar in rawData:
         for category in bar:
             if category == 'c':
@@ -115,16 +125,19 @@ def create_graph(graph_data):
     for time in timeList:
         times.append(pd.Timestamp(time, tz='GMT', unit='ms'))
 
+    # Opret en figur og tilføj Candlestick-grafen
     fig = go.Figure()
     fig.add_trace(go.Candlestick(x=times, open=openList,
                   high=highList, low=lowList, close=closeList, name='graph'))
     fig.update_layout(xaxis_rangeslider_visible=False)
 
+    # Konverter figuren til HTML og returner både grafen og den seneste pris
     graph = fig.to_html()
     return graph, price
 
 
 def get_price(data):
+    # Funktion til at hente den seneste lukkepris fra data.
     closeList = []
     for price in data:
         for category in price:
@@ -134,6 +147,7 @@ def get_price(data):
 
 
 def get_name_and_ticker(data):
+    # Funktion til at hente navn og ticker fra data.
     name = data['name']
     ticker = data['ticker']
     return name, ticker
