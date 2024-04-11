@@ -14,8 +14,9 @@ def index(request, sort=None):
     orders = Order.objects.filter(user=request.user, isActive=True)
 
     if sort == 'price':
-        # sorter orders med price via quicksort
+        # sorter orders med prisen
         orders = sorted(orders, key=lambda x: x.stock.price, reverse=True)
+    #Hent aktuelle pris på aktie
     for order in orders:
         price_results = API_call("https://api.polygon.io/v2/aggs/ticker/", order.stock.ticker,
                                  "/range/1/day/2024-01-01/2024-03-01?adjusted=true&sort=asc&limit=120&apiKey=")
@@ -27,6 +28,7 @@ def index(request, sort=None):
 
 
 def sell_stock(request, orderID, quantity, price):
+    #Sælger stock ved at sætte aktiv til false, og tilføjer penge til konto
     order = get_object_or_404(Order, id=orderID)
     order.isActive = False
     currentUser = request.user
