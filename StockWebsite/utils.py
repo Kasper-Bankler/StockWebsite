@@ -94,9 +94,6 @@ API_call.counter = 0
 
 def create_graph(graph_data):
 
-    # gem rå data
-    rawData = graph_data
-
     # Opret tomme lister til at gemme dataene
     closeList = []
     openList = []
@@ -105,7 +102,7 @@ def create_graph(graph_data):
     timeList = []
 
     # Loop gennem dataene og adskil dem i de forskellige lister baseret på kategori
-    for bar in rawData:
+    for bar in graph_data:
         for category in bar:
             if category == 'c':
                 closeList.append(bar[category])
