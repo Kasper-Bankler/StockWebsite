@@ -126,6 +126,7 @@ def create_graph(graph_data):
         times.append(pd.Timestamp(time, tz='GMT', unit='ms'))
 
     # Opret en figur og tilføj Candlestick-grafen
+    # https://plotly.com/python/candlestick-charts/
     fig = go.Figure()
     fig.add_trace(go.Candlestick(x=times, open=openList,
                   high=highList, low=lowList, close=closeList, name='graph'))
