@@ -7,3 +7,7 @@ A website for buying and selling stocks with virtual money
 - Install dependencies using "pipenv install"
 - Deploy using "python manage.py runserver"
 - Run unit tests using "python manage.py test stocks.tests"
+
+# SuperUser login
+Username: admin
+Password: 123
