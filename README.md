@@ -9,5 +9,5 @@ A website for buying and selling stocks with virtual money
 - Run unit tests using "python manage.py test stocks.tests"
 
 # Superuser login
-Username: admin
-Password: 123
+- Username: admin
+- Password: 123
