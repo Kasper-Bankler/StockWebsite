@@ -8,6 +8,6 @@ A website for buying and selling stocks with virtual money
 - Deploy using "python manage.py runserver"
 - Run unit tests using "python manage.py test stocks.tests"
 
-# SuperUser login
+# Superuser login
 Username: admin
 Password: 123
