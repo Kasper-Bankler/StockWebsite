@@ -11,3 +11,6 @@ A website for buying and selling stocks with virtual money
 # Superuser login
 - Username: admin
 - Password: 123
+
+# Security
+- Settings.py is hidden for security reasons
