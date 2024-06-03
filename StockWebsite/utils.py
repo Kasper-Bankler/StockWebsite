@@ -1,7 +1,7 @@
 import requests
 from plotly import graph_objects as go
 import pandas as pd
-from .settings import apiKey1, apiKey2, apiKey3
+from .settings import apiKeys
 
 
 def partition(array, low, high, sort_by, descending):
@@ -63,12 +63,7 @@ def API_call(url1, stockTicker="", url2=""):
     API_call.counter += 1
 
     # Vælg API-nøgle baseret på counter
-    if API_call.counter % 3 == 0:
-        apiKey = apiKey1
-    elif API_call.counter % 3 == 1:
-        apiKey = apiKey2
-    else:
-        apiKey = apiKey3
+    apiKey=apiKeys[API_call.counter%len(apiKeys)]
 
     # Opsæt headers med api key
     headers = {
