@@ -9,7 +9,7 @@ from StockWebsite.utils import get_price, API_call
 
 @login_required
 def index(request, sort=None):
-
+    #Victors kode
     # Fetch orders fra database
     orders = Order.objects.filter(user=request.user, isActive=True)
 

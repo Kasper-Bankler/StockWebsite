@@ -6,7 +6,7 @@ from stocks.models import Stock
 # Create your models here.
 
 class Order(models.Model):
-
+    #Victors kodestykke
     quantity = models.IntegerField(default=0)
 
     isActive = models.BooleanField(max_length=255, default=True)

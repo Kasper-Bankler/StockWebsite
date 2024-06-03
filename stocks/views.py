@@ -12,7 +12,6 @@ from django.contrib.auth.decorators import login_required
 
 def index(request, sort="", search=""):
     # Funktion for hovedsiden der kaldes når siden indlæses
-
     # API-kald for at hente data
     results = API_call(
         "https://api.polygon.io/v2/aggs/grouped/locale/us/market/stocks/2024-03-06?adjusted=true&apiKey=")
