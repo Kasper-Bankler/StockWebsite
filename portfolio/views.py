@@ -16,11 +16,11 @@ def index(request, sort=None):
     if sort == 'price':
         # sorter orders med prisen
         orders = sorted(orders, key=lambda x: x.stock.price, reverse=True)
-    #Hent aktuelle pris på aktie
+    #Hent aktuelle pris på aktierne
     for order in orders:
         price_results = API_call("https://api.polygon.io/v2/aggs/ticker/", order.stock.ticker,
                                  "/range/1/day/2024-01-01/2024-03-01?adjusted=true&sort=asc&limit=120&apiKey=")
-        price = get_price(price_results)
+        price = get_price(price_results) #Ekstraherer prisen fra API call
         if price is not None:
             order.current_price = price
 

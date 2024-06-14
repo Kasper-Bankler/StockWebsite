@@ -58,7 +58,7 @@ def linear_search(tickers, target):
     return -1
 
 
-def API_call(url1, stockTicker="", url2=""):
+def API_call(url1, stockTicker="", url2=""): #Lav HTTP GET REQUEST til API og returner resultat
     # increment counter
     API_call.counter += 1
 
